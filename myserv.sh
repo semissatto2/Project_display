@@ -11,7 +11,7 @@
 ### END INIT INFO
 
 # Change the next 3 lines to suit where you install your script and what you want to call it
-DIR=/home/debian/Desktop/Project_display/
+DIR=/home/debian/Desktop/Project_display
 DAEMON=$DIR/GPIO_callback4_sem_browser.py
 DAEMON_NAME=GPIO_callback4_sem_browser.py
 
