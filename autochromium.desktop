@@ -1,3 +1,4 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
 Exec=/usr/bin/chromium --kiosk http://10.2.105.115:8080/LinhaInfoWeb/
