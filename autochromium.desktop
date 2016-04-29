@@ -7,3 +7,6 @@ NoDisplay=false
 X-GNOME-Autostart-enable=true
 Name=Autochromium
 Comment=Autochromium_autostart
+
+##OBS: Desktop Entry desatualizada!!! Isto deve ser alterado, agora o Desktop entry aciona um shell script que configura o Chromium
+##export = ... = "no" e o abre no modo --kiosk
