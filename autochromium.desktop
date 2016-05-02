@@ -1,12 +1,9 @@
 #!/usr/bin/env xdg-open
 [Desktop Entry]
 Type=Application
-Exec=/usr/bin/chromium --kiosk http://10.2.105.115:8080/LinhaInfoWeb/
+Exec=/usr/bin/atualiza.sh
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enable=true
 Name=Autochromium
 Comment=Autochromium_autostart
-
-##OBS: Desktop Entry desatualizada!!! Isto deve ser alterado, agora o Desktop entry aciona um shell script que configura o Chromium
-##export = ... = "no" e o abre no modo --kiosk
