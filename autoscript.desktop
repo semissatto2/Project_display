@@ -7,3 +7,5 @@ NoDisplay=false
 X-GNOME-Autostart-enable=true
 Name=Autochromium
 Comment=Autochromium_autostart
+
+#Este arquivo deve ser colocado em /home/debian/.config/autostart/autoscript.desktop
