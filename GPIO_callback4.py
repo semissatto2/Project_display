@@ -66,6 +66,7 @@ def funcao_1():
 	screen.blit(back1,(0,0))
 	while GPIO.input("P8_11"):
 		pygame.display.flip()
+	time.sleep(0.5)
 	pygame.quit()
         
 def funcao_2():
@@ -80,6 +81,7 @@ def funcao_2():
 	screen.blit(back2,(0,0))
 	while GPIO.input("P8_11"):
 		pygame.display.flip()
+        time.sleep(0.5)
         pygame.quit()
         
 def funcao_3():
@@ -94,6 +96,7 @@ def funcao_3():
 	screen.blit(back3,(0,0))
 	while GPIO.input("P8_11"):
 		pygame.display.flip()
+	time.sleep(0.5)
 	pygame.quit()
         
 def funcao_4():
@@ -108,6 +111,7 @@ def funcao_4():
 	screen.blit(back4,(0,0))
 	while GPIO.input("P8_11"):
 		pygame.display.flip()
+	time.sleep(0.5)
 	pygame.quit()
 
 def funcao_5():
@@ -122,6 +126,7 @@ def funcao_5():
         screen.blit(back4,(0,0))
         while GPIO.input("P8_11"):
                 pygame.display.flip()
+        time.sleep(0.5)
         pygame.quit()
 	
 #__SETUP
