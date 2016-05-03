@@ -12,3 +12,5 @@ exit 0
 
 #Este script deve ser colocado na pasta /usr/bin/
 #OBS: deve ser baixado xdotool, unclutter!
+#sudo apt-get install xdotool
+#sudo apt-get install unclutter
