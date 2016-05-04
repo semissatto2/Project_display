@@ -17,6 +17,12 @@ def funcao_0(channel):
 	if a == 1001:
 		a = 1
 	if a % 2 == 0:
+	        #Varre mensagem 0
+                if  GPIO.input("P8_16")==0:
+                        if GPIO.input("P8_14")== 0:
+                                if GPIO.input("P8_12") == 0:
+                                        if GPIO.input("P8_18") == 0:
+                                                funcao_5()
 	#Varre mensagem 1
 		if  GPIO.input("P8_12")==1:
                 	if GPIO.input("P8_14") == 0:
@@ -46,12 +52,7 @@ def funcao_0(channel):
                                         	funcao_4()
 	                                        
 
-        #Varre mensagem 0
-                if  GPIO.input("P8_16")==0:
-                        if GPIO.input("P8_14")== 0:
-                                if GPIO.input("P8_12") == 0:
-                                        if GPIO.input("P8_18") == 0:
-                                                funcao_5()
+
                                                 
 
 def funcao_1():
