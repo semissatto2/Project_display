@@ -1,0 +1,9 @@
+[Unit]
+Description=My Launcher Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/display.sh
+
+[Install]
+WantedBy=multi-user.target
