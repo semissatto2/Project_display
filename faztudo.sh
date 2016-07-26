@@ -12,9 +12,9 @@ sudo chmod 777 GPIO_callback4.py
 sudo chmod 777 display.sh
 sudo chmod 777 launcher.service
 cd /home/debian/Desktop/Project_display/
-sudo cp display.sh /usr/bin/display.sh
+cp display.sh /usr/bin/display.sh
 cd /home/debian/Desktop/Project_display/
-sudo cp launcher.service /lib/systemd/launcher.service
+cp launcher.service /lib/systemd/launcher.service
 ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
 sudo systemctl daemon-reload
 sudo systemctl enable /lib/systemd/launcher.service
@@ -23,13 +23,15 @@ sudo apt-get install unclutter -y
 cd /home/debian/Desktop/Project_display/
 sudo chmod 777 atualiza.sh
 cd /home/debian/Desktop/Project_display/
-sudo cp atualiza.sh /usr/bin/atualiza.sh
+cp atualiza.sh /usr/bin/atualiza.sh
 sudo mkdir /home/debian/.config/autostart/
 cd /home/debian/Desktop/Project_display/
 sudo chmod 777 autoscript.desktop
 cd /home/debian/Desktop/Project_display/
-sudo cp autoscript.desktop /home/debian/.config/autostart/autoscript.desktop
+cp autoscript.desktop /home/debian/.config/autostart/autoscript.desktop
 sudo systemctl start launcher.service
+
+
 
 
 
