@@ -34,10 +34,5 @@ sudo systemctl start launcher.service
 
 
 
-
-
-
-
-
 #Script de configuração completa da BBB 
 #Tornar este arquivo executável com $sudo chmod 777 faztudo.sh
