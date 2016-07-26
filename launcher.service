@@ -7,3 +7,10 @@ ExecStart=/usr/bin/display.sh
 
 [Install]
 WantedBy=multi-user.target
+
+#Service de autoboot
+#Este arquivo deve ser colocado em /lib/systemd/launcher.service
+#Em seguida deve-se ativa-lo com:
+# $sudo systemctl daemon-reload
+# $sudo systemctl enable /lib/systemd/launcher.service
+# $sudo systemctl start launcher.service
