@@ -1,5 +1,6 @@
 #!/bin/sh
 
+#Nao sendo utilizado no momento 26/07/2016
 ### BEGIN INIT INFO
 # Provides:          myservice
 # Required-Start:    $remote_fs $syslog
