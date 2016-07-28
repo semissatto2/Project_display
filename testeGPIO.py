@@ -1,6 +1,8 @@
 #!/usr/bin/env python
+#Este codigo exibe o valor dos 8 GPIOs utilizados
 import Adafruit_BBIO.GPIO as GPIO
 import time
+
 GPIO.setup("P8_11", GPIO.IN)
 GPIO.setup("P8_12", GPIO.IN)
 GPIO.setup("P8_13", GPIO.IN)
