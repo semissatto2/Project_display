@@ -2,6 +2,13 @@
 export GOOGLE_API_KEY="no"
 export GOOGLE_DEFAULT_CLIENT_ID="no"
 export GOOGLE_DEFAULT_CLIENT_SECRET="no"
+
+sudo mkdir /home/debian/Desktop/shared
+sudo cp /home/debian/Desktop/shared/beamon.jpg /home/debian/Desktop/Project_display/beamon.jpg
+sudo cp /home/debian/Desktop/shared/beamoff.jpg /home/debian/Desktop/Project_display/beamoff.jpg
+sudo cp /home/debian/Desktop/shared/imminent.jpg /home/debian/Desktop/Project_display/imminent.jpg
+sudo cp /home/debian/Desktop/shared/falha.jpg /home/debian/Desktop/Project_display/falha.jpg
+
 chromium --kiosk http://10.2.105.115:8080/LinhaInfoWeb/
 sleep 25s
 xdotool search --class Chromium windowactivate
