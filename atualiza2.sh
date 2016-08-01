@@ -7,3 +7,5 @@ for i in {0..10..2}
     sudo xdotool key F5
   done
 exit 0
+
+#Deve ser colocado em /usr/bin/atualiza2.sh
