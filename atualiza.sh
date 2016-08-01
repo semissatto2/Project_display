@@ -10,9 +10,9 @@ sudo cp /home/debian/Desktop/shared/imminent.jpg /home/debian/Desktop/Project_di
 sudo cp /home/debian/Desktop/shared/falha.jpg /home/debian/Desktop/Project_display/falha.jpg
 
 chromium --kiosk http://10.2.105.115:8080/LinhaInfoWeb/
-sleep 25s
-xdotool search --class Chromium windowactivate
-xdotool key F5
+sudo sleep 25s
+sudo xdotool search --class Chromium windowactivate
+sudo xdotool key F5
 unclutter -idle 1 -root
 echo "press ctrl c to stop"
 exit 0
