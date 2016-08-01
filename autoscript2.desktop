@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/atualiza2.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enable=true
+Name=Refresh_chromium
+Comment=Refresh_chromium_autostart
+
+#Este arquivo deve ser colocado em /home/debian/.config/autostart/autoscript2.desktop
