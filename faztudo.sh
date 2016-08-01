@@ -2,6 +2,7 @@
 sudo ntpdate pool.ntp.org
 sudo apt-get update
 sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus -y
+sudo apt-get upgrade chromium
 sudo pip install Adafruit_BBIO
 sudo apt-get install python-pygame -y
 cd /home/debian/Desktop/
