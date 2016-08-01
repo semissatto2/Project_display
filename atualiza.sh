@@ -9,7 +9,7 @@ sudo cp /home/debian/Desktop/shared/beamoff.jpg /home/debian/Desktop/Project_dis
 sudo cp /home/debian/Desktop/shared/imminent.jpg /home/debian/Desktop/Project_display/imminent.jpg
 sudo cp /home/debian/Desktop/shared/falha.jpg /home/debian/Desktop/Project_display/falha.jpg
 
-chromium --kiosk http://10.2.105.115:8080/LinhaInfoWeb/
+chromium --kiosk --disable-infobars http://10.2.105.115:8080/LinhaInfoWeb/
 sudo sleep 25s
 sudo xdotool search --class Chromium windowactivate
 sudo xdotool key F5
