@@ -42,6 +42,7 @@ cd /home/debian/Desktop/Project_display/
 cp autoscript.desktop /home/debian/.config/autostart/autoscript.desktop
 cd /home/debian/Desktop/Project_display/
 cp autoscript2.desktop /home/debian/.config/autostart/autoscript2.desktop
+aptitude install cifs-utils -y
 sudo systemctl start launcher.service
 sudo systemctl start atualiza.service
 
