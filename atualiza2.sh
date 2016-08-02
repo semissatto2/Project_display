@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 #Script de atualizacao do Chromium
-for i in {0..10..2}
+for i in {0..4..2}
   do
     sleep 20s
     sudo xdotool search --class Chromium windowactivate
