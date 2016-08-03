@@ -5,6 +5,7 @@ for i in {0..4..2}
     sleep 20s
     sudo xdotool search --class Chromium windowactivate
     sudo xdotool key F5
+    mount.cifs //centaurus/TROCA/gsemissatto/BBB /home/debian/Desktop/shared/ -o credentials=/home/debian/Desktop/Project_display/pwd.txt
   done
 exit 0
 
