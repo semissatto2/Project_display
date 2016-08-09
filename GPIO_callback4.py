@@ -181,7 +181,7 @@ def funcao_7():
                 pygame.display.flip()
         time.sleep(0.5)
         pygame.quit()  
- def funcao_8():
+def funcao_8():
         print "funcao8"
         #pygame.init()
         screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
