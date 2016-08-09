@@ -51,17 +51,33 @@ def funcao_0(channel):
                         	if GPIO.input("P8_12") == 0:
                                 	if GPIO.input("P8_18") == 0:
                                         	funcao_4()
-	                                        
-
+	#Varre mensagem 5
+		if  GPIO.input("P8_12")==1:
+                	if GPIO.input("P8_14") == 0:
+                        	if GPIO.input("P8_17") == 1:
+                                	if GPIO.input("P8_18") == 0:
+                                        	funcao_6()                                        
+	#Varre mensagem 6
+		if  GPIO.input("P8_12")==0:
+                	if GPIO.input("P8_14") == 1:
+                        	if GPIO.input("P8_17") == 1:
+                                	if GPIO.input("P8_18") == 0:
+                                        	funcao_7()                                        	
+	#Varre mensagem 7
+		if  GPIO.input("P8_12")==1:
+                	if GPIO.input("P8_14") == 1:
+                        	if GPIO.input("P8_17") == 1:
+                                	if GPIO.input("P8_18") == 0:
+                                        	funcao_8()
 
                                                 
 
 def funcao_1():
 	print "funcao1"
-	pygame.init()
+	#pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
-	image1 = pygame.image.load("/home/debian/Desktop/Project_display/beamon.jpg")
+	image1 = pygame.image.load("/home/debian/Desktop/Project_display/shared/beamon.jpg")
 	image1 = pygame.transform.scale(image1, (screen.get_size()[0], screen.get_size()[1]))
 	back1 = pygame.Surface(screen.get_size())
 	back1 = back1.convert()
@@ -74,10 +90,10 @@ def funcao_1():
         
 def funcao_2():
         print "funcao2"
-        pygame.init()
+        #pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
-	image2 = pygame.image.load("/home/debian/Desktop/Project_display/beamoff.jpg")
+	image2 = pygame.image.load("/home/debian/Desktop/Project_display/shared/beamoff.jpg")
 	image2 = pygame.transform.scale(image2, (screen.get_size()[0], screen.get_size()[1]))
 	back2 = pygame.Surface(screen.get_size())
 	back2 = back2.convert()
@@ -90,10 +106,10 @@ def funcao_2():
         
 def funcao_3():
 	print "funcao3"
-	pygame.init()
+	#pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
-	image3 = pygame.image.load("/home/debian/Desktop/Project_display/imminent.jpg")
+	image3 = pygame.image.load("/home/debian/Desktop/Project_display/shared/imminent.jpg")
 	image3 = pygame.transform.scale(image3, (screen.get_size()[0], screen.get_size()[1]))
 	back3 = pygame.Surface(screen.get_size())
 	back3 = back3.convert()
@@ -106,10 +122,10 @@ def funcao_3():
         
 def funcao_4():
        	print "funcao4"
-       	pygame.init()
+       	#pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
-	image4 = pygame.image.load("/home/debian/Desktop/Project_display/falha.jpg")
+	image4 = pygame.image.load("/home/debian/Desktop/Project_display/shared/falha.jpg")
 	image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
 	back4 = pygame.Surface(screen.get_size())
 	back4 = back4.convert()
@@ -122,10 +138,10 @@ def funcao_4():
 
 def funcao_5():
         print "funcao5"
-        pygame.init()
+        #pygame.init()
         screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
         pygame.mouse.set_visible(0)
-        image4 = pygame.image.load("/home/debian/Desktop/Project_display/off.jpg")
+        image4 = pygame.image.load("/home/debian/Desktop/Project_display/shared/off.jpg")
         image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
         back4 = pygame.Surface(screen.get_size())
         back4 = back4.convert()
@@ -135,7 +151,51 @@ def funcao_5():
                 pygame.display.flip()
         time.sleep(0.5)
         pygame.quit()
-	
+def funcao_6():
+        print "funcao6"
+        #pygame.init()
+        screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+        pygame.mouse.set_visible(0)
+        image4 = pygame.image.load("/home/debian/Desktop/Project_display/shared/5.jpg")
+        image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
+        back4 = pygame.Surface(screen.get_size())
+        back4 = back4.convert()
+        back4.blit(image4,(0,0))
+        screen.blit(back4,(0,0))
+        while GPIO.input("P8_11"):
+                pygame.display.flip()
+        time.sleep(0.5)
+        pygame.quit()
+def funcao_7():
+        print "funcao7"
+        #pygame.init()
+        screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+        pygame.mouse.set_visible(0)
+        image4 = pygame.image.load("/home/debian/Desktop/Project_display/shared/6.jpg")
+        image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
+        back4 = pygame.Surface(screen.get_size())
+        back4 = back4.convert()
+        back4.blit(image4,(0,0))
+        screen.blit(back4,(0,0))
+        while GPIO.input("P8_11"):
+                pygame.display.flip()
+        time.sleep(0.5)
+        pygame.quit()  
+ def funcao_8():
+        print "funcao8"
+        #pygame.init()
+        screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+        pygame.mouse.set_visible(0)
+        image4 = pygame.image.load("/home/debian/Desktop/Project_display/shared/7.jpg")
+        image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
+        back4 = pygame.Surface(screen.get_size())
+        back4 = back4.convert()
+        back4.blit(image4,(0,0))
+        screen.blit(back4,(0,0))
+        while GPIO.input("P8_11"):
+                pygame.display.flip()
+        time.sleep(0.5)
+        pygame.quit()       
 #__SETUP
 
 GPIO.setup("P8_11", GPIO.IN)
@@ -145,7 +205,7 @@ GPIO.setup("P8_14", GPIO.IN)
 GPIO.setup("P8_16", GPIO.IN)
 GPIO.setup("P8_17", GPIO.IN)
 GPIO.setup("P8_18", GPIO.IN)
-
+pygame.init()
 #__PERMANENT_LOOP
 while True:
 
