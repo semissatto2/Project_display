@@ -1,2 +1,2 @@
 # display-alertas-bbb
-O projeto consiste na exibição de mensagens de alertas sobre o estado da linha de luz, como, por exemplo, “beam on”, “beam off”, “imminent beam”, etc . Cada mensagem de alerta é definida a partir de um CLP e enviada para um computador embarcado (Beaglebone Black) o qual tratará cada mensagem e exibirá o alerta pertinente em um monitor. Desta forma, os alertas deixam de ser apenas por cores e tornam-se legíveis. O projeto possui duas versões. Uma versão exibirá os alertas em alternância com o servidor de controle do feixe e a outra versão exibirá apenas mensagens de alerta em um monitor dedicado exclusivamente para tal.
+Internal Project
