@@ -11,6 +11,7 @@ a = 1
 
 #__FUNCTIONS
 def funcao_0(channel):
+	print "funcao0"
 	time.sleep(0.05)
 	global a
 	a = a + 1
@@ -56,6 +57,7 @@ def funcao_0(channel):
                                                 
 
 def funcao_1():
+	print "funcao1"
 	pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
@@ -71,6 +73,7 @@ def funcao_1():
 	pygame.quit()
         
 def funcao_2():
+        print "funcao2"
         pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
@@ -86,6 +89,7 @@ def funcao_2():
         pygame.quit()
         
 def funcao_3():
+	print "funcao3"
 	pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
@@ -101,6 +105,7 @@ def funcao_3():
 	pygame.quit()
         
 def funcao_4():
+       	print "funcao4"
        	pygame.init()
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	pygame.mouse.set_visible(0)
@@ -116,6 +121,7 @@ def funcao_4():
 	pygame.quit()
 
 def funcao_5():
+        print "funcao5"
         pygame.init()
         screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
         pygame.mouse.set_visible(0)
@@ -137,6 +143,7 @@ GPIO.add_event_detect("P8_11", GPIO.BOTH, callback=funcao_0, bouncetime=150)
 GPIO.setup("P8_12", GPIO.IN)
 GPIO.setup("P8_14", GPIO.IN)
 GPIO.setup("P8_16", GPIO.IN)
+GPIO.setup("P8_17", GPIO.IN)
 GPIO.setup("P8_18", GPIO.IN)
 
 #__PERMANENT_LOOP
