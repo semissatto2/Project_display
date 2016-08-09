@@ -12,6 +12,7 @@ GPIO.setup("P8_16", GPIO.IN)
 GPIO.setup("P8_17", GPIO.IN)
 GPIO.setup("P8_18", GPIO.IN)
 
+
 while True:
 	if GPIO.input("P8_11"):
 		print("P8_11 HIGH")
