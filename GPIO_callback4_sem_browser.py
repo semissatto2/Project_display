@@ -57,7 +57,7 @@ def funcao_0(channel):
                                         
 
 def funcao_1():
-	image1 = pygame.image.load("/home/debian/Desktop/Project_display/beamon.jpg")
+	image1 = pygame.image.load("/home/debian/Desktop/Project_display/images/beamon.png")
 	image1 = pygame.transform.scale(image1, (screen.get_size()[0], screen.get_size()[1]))
 	back1 = pygame.Surface(screen.get_size())
 	back1 = back1.convert()
@@ -68,7 +68,7 @@ def funcao_1():
 	
 	        
 def funcao_2():
-        image2 = pygame.image.load("/home/debian/Desktop/Project_display/beamoff.jpg")
+        image2 = pygame.image.load("/home/debian/Desktop/Project_display/images/beamoff.png")
 	image2 = pygame.transform.scale(image2, (screen.get_size()[0], screen.get_size()[1]))
 	back2 = pygame.Surface(screen.get_size())
 	back2 = back2.convert()
@@ -80,7 +80,7 @@ def funcao_2():
 	
         
 def funcao_3():
-	image3 = pygame.image.load("/home/debian/Desktop/Project_display/imminent.jpg")
+	image3 = pygame.image.load("/home/debian/Desktop/Project_display/images/imminent.png")
 	image3 = pygame.transform.scale(image3, (screen.get_size()[0], screen.get_size()[1]))
 	back3 = pygame.Surface(screen.get_size())
 	back3 = back3.convert()
@@ -91,7 +91,7 @@ def funcao_3():
 		
         
 def funcao_4():
-       	image4 = pygame.image.load("/home/debian/Desktop/Project_display/falha.jpg")
+       	image4 = pygame.image.load("/home/debian/Desktop/Project_display/images/falha.png")
 	image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
 	back4 = pygame.Surface(screen.get_size())
 	back4 = back4.convert()
@@ -101,7 +101,7 @@ def funcao_4():
 		pygame.display.flip()
 		
 def funcao_5():
-        image5 = pygame.image.load("/home/debian/Desktop/Project_display/off.jpg")
+        image5 = pygame.image.load("/home/debian/Desktop/Project_display/images/off.png")
         image5 = pygame.transform.scale(image5, (screen.get_size()[0], screen.get_size()[1]))
         back5 = pygame.Surface(screen.get_size())
         back5 = back5.convert()
@@ -124,7 +124,7 @@ GPIO.setup("P8_18", GPIO.IN)
 pygame.init()
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 pygame.mouse.set_visible(0)
-image0 = pygame.image.load("/home/debian/Desktop/Project_display/off.jpg")
+image0 = pygame.image.load("/home/debian/Desktop/Project_display/images/off.png")
 image0 = pygame.transform.scale(image0, (screen.get_size()[0], screen.get_size()[1]))
 back0 = pygame.Surface(screen.get_size())
 back0 = back0.convert()
