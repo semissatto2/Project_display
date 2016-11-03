@@ -75,7 +75,7 @@ sleep 3
 echo "${green}Inicializando os scripts de automação...${reset}"
 sudo systemctl start launcher.service
 sudo systemctl start atualiza.service
-echo "${green}Beaglebone completamente configurada! Reiniciando${reset}"
+echo "${green}Beaglebone completamente configurada! Reiniciando...${reset}"
 sudo reboot
 
 
