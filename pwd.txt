@@ -1,2 +1,2 @@
-username=xxx
-password=xxxx
+username=userxrd
+password=difrac2
