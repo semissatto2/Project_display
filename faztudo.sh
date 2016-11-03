@@ -3,7 +3,7 @@ green=`tput setaf 1`
 
 echo "${green}Atualizando data do sistema..."
 sudo ntpdate pool.ntp.org
-echo "${green}Data atualizada"
+echo "${green}Time stamp atualizado"
 
 echo "${green}Atualizando Debian e obtendo pacotes Python pip, Adafruit, Pygame, Xdotool, Unclutter, Samba..."
 sudo apt-get update
@@ -40,14 +40,11 @@ echo "${green}Copiando arquivos..."
 cd /home/debian/Desktop/Project_display/
 cp display.sh /usr/bin/display.sh
 cp launcher.service /lib/systemd/launcher.service
-cd /home/debian/Desktop/Project_display/
 cp atualiza.service /lib/systemd/atualiza.service
 cp atualiza.sh /usr/bin/atualiza.sh
 cp atualiza2.sh /usr/bin/atualiza2.sh
 sudo mkdir /home/debian/.config/autostart/
-cd /home/debian/Desktop/Project_display/
 cp autoscript.desktop /home/debian/.config/autostart/autoscript.desktop
-cd /home/debian/Desktop/Project_display/
 cp autoscript2.desktop /home/debian/.config/autostart/autoscript2.desktop
 echo "${green}Arquivos copiados..."
 sleep 3
@@ -68,7 +65,7 @@ echo "${green}Inicializando os scripts de automação..."
 sudo systemctl start launcher.service
 sudo systemctl start atualiza.service
 echo "${green}Beaglebone completamente configurada!"
-
+sleep 8
 
 
 #Script de configuração completa da BBB 
