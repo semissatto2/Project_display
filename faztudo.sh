@@ -1,5 +1,10 @@
 #!/bin/sh
 green=`tput setaf 2`
+red=`tput setaf 1`
+
+echo "${red}AVISO: NÃO REINICIE OU DESERNEGIZE A BEAGLEBONE"
+echo "${red}AVISO: NÃO INTERROMPA (CTRL + C) ESTE SCRIPT DE CONFIGURAÇÃO"
+echo "${red}AVISO: A INTERRUPÇÃO DESTE SCRIPT PODE DANIFICAR O SISTEMA OPERACIONAL. EM CASO DE PROBLEMAS, FORMATE A BEAGLEBONE COM UM NOVO SISTEMA OPERACIONAL"
 
 echo "${green}Atualizando data do sistema..."
 sudo ntpdate pool.ntp.org
