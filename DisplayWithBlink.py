@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 from sys import exit
 
+#Comentario
 #__GLOBAL_VARIABLES_CONTROL
 a = 1
 
