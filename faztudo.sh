@@ -1,10 +1,10 @@
 #!/bin/sh
-green=`tput setaf 1`
+green=`tput setaf 2`
 
 echo "${green}Atualizando data do sistema..."
 sudo ntpdate pool.ntp.org
 echo "${green}Time stamp atualizado"
-
+echo "${green}Atualizando data do sistema..."
 echo "${green}Atualizando Debian e obtendo pacotes Python pip, Adafruit, Pygame, Xdotool, Unclutter, Samba..."
 sudo apt-get update
 sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus -y
