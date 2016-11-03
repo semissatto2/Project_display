@@ -57,8 +57,8 @@ cp atualiza2.sh /usr/bin/atualiza2.sh
 sudo mkdir /home/debian/.config/autostart/
 cp autoscript.desktop /home/debian/.config/autostart/autoscript.desktop
 cp autoscript2.desktop /home/debian/.config/autostart/autoscript2.desktop
-sudo mkdir /home/debian/Download/
-cp /home/debian/Desktop/Project_display/version/version.txt /home/debian/Download/version.txt
+sudo mkdir /home/debian/Downloads/
+cp /home/debian/Desktop/Project_display/version/version.txt /home/debian/Downloads/version.txt
 echo "${green}Arquivos copiados...${reset}"
 sleep 3
 
