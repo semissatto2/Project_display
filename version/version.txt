@@ -1,5 +1,5 @@
-version = 3.1
+version = 2
 
 #History
 
-@3/nov/2016 — Criado arquivo para controle de versão!
+@3/nov/2016 — Criado arquivo para controle de versão
