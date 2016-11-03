@@ -1,5 +1,6 @@
-version = 2.7
+version = 2.8
 
 #History
 
 @3/nov/2016 — Criado arquivo para controle de versão
+            — Script de configuração inicial da Beaglebone modificado. Mais claro e documentado.
