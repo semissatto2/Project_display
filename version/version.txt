@@ -1,1 +1,5 @@
-version = 2
+version = 3
+
+#History
+
+@3/nov/2016 — Criado arquivo para controle de versão
