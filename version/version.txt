@@ -1,6 +1,8 @@
-version = 2.8
+version = 2.9
 
 #History
 
 @3/nov/2016 — Criado arquivo para controle de versão
             — Script de configuração inicial da Beaglebone modificado. Removido comandos redundantes.
+            
+@4/nov/2016 — Adicionado script de comparação de versão Beaglebone com versão do Repositório.
