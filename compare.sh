@@ -22,16 +22,15 @@ do
 		sleep 60
 	   else
 		echo "${red}Beaglebone is OUTDATED${reset}"
-		cd /home/debian/Downloads/
-		sudo rm -r /home/debian/Downloads/Clones/
-		echo "Cloning new Repository"
-		sudo mkdir Clones
-		cd /home/debian/Downloads/Clones/
+		cd /home/debian/Desktop/
+		sudo rm -r /home/debian/Desktop/Project_display/
+		sudo rm -r /home/debian/Desktop/Shared/
+		echo "Cloning new Repository"		
 		git clone https://github.com/semissatto2/Project_display.git
-		sudo cp /home/debian/Downloads/Clones/Project_display/version/version.txt /home/debian/Desktop/Project_display/version/version.txt
-		cd /home/debian/Downloads/Clones/Project_display/
+		sudo cp /home/debian/Desktop/Project_display/version/version.txt /home/debian/Downloads/version.txt
+		cd /home/debian/Desktop/Project_display/
 		sudo chmod 777 faztudo.sh
-		#sudo bash faztudo.sh
+		sudo bash faztudo.sh
 		echo "${green}Beaglebone now is UPDATED${reset}"
 		sleep 60
 		fi
