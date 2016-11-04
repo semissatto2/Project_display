@@ -19,7 +19,7 @@ do
 
 	 if [ $bbb_version == $current_version ]; then
 		echo "${green}Beaglebone is already UPDATED${reset}"
-		sleep 60
+		sleep 300
 	   else
 		echo "${red}Beaglebone is OUTDATED${reset}"
 		cd /home/debian/Desktop/
@@ -32,6 +32,6 @@ do
 		sudo chmod 777 faztudo.sh
 		sudo bash faztudo.sh
 		echo "${green}Beaglebone now is UPDATED${reset}"
-		sleep 60
+		sleep 300
 		fi
 done
