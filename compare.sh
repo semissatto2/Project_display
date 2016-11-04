@@ -8,7 +8,7 @@ do
 	#Baixando versao do repositorio
 	echo "Reading repository version ..."
 	cd /home/debian/Downloads/
-	wget -qN https://raw.githubusercontent.com/semissatto2/Project_display/master/version/version.txt # -N allows overwrite -q is quit mode
+	wget -qN https://raw.githubusercontent.com/semissatto2/Project_display/master/version/version.txt # -N allows overwrite -q is quiet mode
 	echo "Repository version successfully read"
 
 	declare bbb_version=$(awk -F " " '/version/{print $3;}' /home/debian/Desktop/Project_display/version/version.txt)
