@@ -12,6 +12,19 @@ echo "${red}AVISO: A INTERRUPÇÃO DESTE SCRIPT PODE DANIFICAR O SISTEMA OPERACI
 echo "${red}Script feito por guilherme.semissatto@lnls.br${reset}"
 sleep 5
 
+#TESTE
+export GOOGLE_API_KEY="no"
+export GOOGLE_DEFAULT_CLIENT_ID="no"
+export GOOGLE_DEFAULT_CLIENT_SECRET="no"
+
+
+sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' /home/debian/.config/chromium/Default/Preferences
+chromium --kiosk --disable-infobars --disable-session-crashed-bubble http://rivalkingdoms.ninja/wp-content/uploads/2015/06/rival-kingdoms-update.png
+unclutter -idle 1 -root
+echo "press ctrl c to stop"
+exit 0
+##TESTE
+
 echo "${green}Atualizando data do sistema...${reset}"
 sudo ntpdate pool.ntp.org
 echo "${green}Time stamp atualizado${reset}"
