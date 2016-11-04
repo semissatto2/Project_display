@@ -3,7 +3,7 @@ version = 3.1
 #History
 
 @3/nov/2016 — Criado arquivo para controle de versão;
-            — Script de configuração inicial da Beaglebone modificado. Removido comandos redundantes;
+            — Script de configuração inicial da Beaglebone modificado. Removidos comandos redundantes;
             
 @4/nov/2016 — Adicionado script de comparação de versão Beaglebone com versão do Repositório;
             — Adicionado arquivos de áudio /sounds/;
