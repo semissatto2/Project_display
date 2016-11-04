@@ -1,0 +1,16 @@
+[Unit]
+Description=My Compare Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/compare.sh
+
+[Install]
+WantedBy=multi-user.target
+
+#Service de autoboot
+#Este arquivo deve ser colocado em /lib/systemd/compare.service
+#Em seguida deve-se ativa-lo com:
+# $sudo systemctl daemon-reload
+# $sudo systemctl enable /lib/systemd/compare.service
+# $sudo systemctl start compare.service

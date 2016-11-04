@@ -44,6 +44,7 @@ sudo chmod 777 autoscript.desktop
 sudo chmod 777 autoscript2.desktop
 sudo chmod 777 atualiza.sh
 sudo chmod 777 atualiza2.sh
+sudo chmod 777 compare.sh
 echo "${green}Permissões concedidas...${reset}"
 sleep 5
 
@@ -52,6 +53,8 @@ cd /home/debian/Desktop/Project_display/
 cp display.sh /usr/bin/display.sh
 cp launcher.service /lib/systemd/launcher.service
 cp atualiza.service /lib/systemd/atualiza.service
+cp compare.service /lib/systemd/compare.service
+cp compare.sh /usr/bin/compare.sh
 cp atualiza.sh /usr/bin/atualiza.sh
 cp atualiza2.sh /usr/bin/atualiza2.sh
 sudo mkdir /home/debian/.config/autostart/
@@ -69,6 +72,9 @@ sudo systemctl enable /lib/systemd/launcher.service
 ln -s /lib/systemd/atualiza.service /etc/systemd/system/atualiza.service
 sudo systemctl daemon-reload
 sudo systemctl enable /lib/systemd/atualiza.service
+ln -s /lib/systemd/compare.service /etc/systemd/system/compare.service
+sudo systemctl daemon-reload
+sudo systemctl enable /lib/systemd/compare.service
 echo "${green}Scripts incorporados ao sistema...${reset}"
 sleep 3
 
@@ -77,6 +83,7 @@ sleep 3
 echo "${green}Inicializando os scripts de automação...${reset}"
 sudo systemctl start launcher.service
 sudo systemctl start atualiza.service
+sudo systemctl start compare.service
 echo "${green}Beaglebone completamente configurada! Reiniciando...${reset}"
 sudo reboot
 
