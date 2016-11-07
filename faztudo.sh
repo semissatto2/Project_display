@@ -17,12 +17,11 @@ chromium --kiosk --disable-infobars --disable-session-crashed-bubble http://riva
 unclutter -idle 1 -root
 echo "press ctrl c to stop"
 exit 0
-##TESTE
+
 
 echo "${green}Atualizando data do sistema...${reset}"
 sudo ntpdate pool.ntp.org
 echo "${green}Time stamp atualizado${reset}"
-echo "${green}Atualizando data do sistema...${reset}"
 echo "${green}Atualizando Debian e obtendo pacotes Python pip, Adafruit, Pygame, Xdotool, Unclutter, Samba...${reset}"
 sudo apt-get update
 sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus -y
