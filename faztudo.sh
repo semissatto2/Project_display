@@ -13,6 +13,7 @@ echo "${red}Script feito por ${green}guilherme.semissatto@lnls.br${reset}"
 sleep 5
 
 #Aviso na tela
+sudo chmod 777 /home/debian/Desktop/Project_display/updating_display.py
 sudo python /home/debian/Desktop/Project_display/updating_display.py &
 
 echo "${green}Atualizando data do sistema...${reset}"
