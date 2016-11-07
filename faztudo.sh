@@ -9,14 +9,8 @@ reset=`tput sgr0`
 echo "${red}AVISO: NÃO REINICIE OU DESERNEGIZE A BEAGLEBONE!${reset}"
 echo "${red}AVISO: NÃO INTERROMPA (CTRL + C) ESTE SCRIPT DE CONFIGURAÇÃO!${reset}"
 echo "${red}AVISO: A INTERRUPÇÃO DESTE SCRIPT PODE DANIFICAR O SISTEMA OPERACIONAL. EM CASO DE PROBLEMAS, FORMATE A BEAGLEBONE COM UM NOVO SISTEMA OPERACIONAL${reset}"
-echo "${red}Script feito por guilherme.semissatto@lnls.br${reset}"
+echo "${red}Script feito por ${green}guilherme.semissatto@lnls.br${reset}"
 sleep 5
-
-#TESTE
-export GOOGLE_API_KEY="no"
-export GOOGLE_DEFAULT_CLIENT_ID="no"
-export GOOGLE_DEFAULT_CLIENT_SECRET="no"
-
 
 sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' /home/debian/.config/chromium/Default/Preferences
 chromium --kiosk --disable-infobars --disable-session-crashed-bubble http://rivalkingdoms.ninja/wp-content/uploads/2015/06/rival-kingdoms-update.png
