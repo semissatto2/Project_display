@@ -138,6 +138,7 @@ GPIO.setup("P8_18", GPIO.IN)
 #__SETUP_PYGAME
 pygame.init()
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+'''
 pygame.mouse.set_visible(0)
 image0 = pygame.image.load("/home/debian/Desktop/shared/off.png")
 image0 = pygame.transform.scale(image0, (screen.get_size()[0], screen.get_size()[1]))
@@ -146,6 +147,7 @@ back0 = back0.convert()
 back0.blit(image0,(0,0))
 screen.blit(back0,(0,0))
 pygame.display.flip()
+'''
 
 
 #__PERMANENT_LOOP
