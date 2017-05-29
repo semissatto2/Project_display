@@ -105,7 +105,7 @@ def funcao_3():
 		
         
 def funcao_4():
-       	image4 = pygame.image.load("/home/debian/Desktop/shared/falha.png.png")
+       	image4 = pygame.image.load("/home/debian/Desktop/shared/falha.png")
 	image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
 	back4 = pygame.Surface(screen.get_size())
 	back4 = back4.convert()
