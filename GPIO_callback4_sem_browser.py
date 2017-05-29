@@ -123,6 +123,16 @@ def funcao_5():
         screen.blit(back5,(0,0))
 	#while GPIO.input("P8_11"):
         pygame.display.flip()
+
+def funcao_6():
+        image5 = pygame.image.load("/home/debian/Desktop/shared/5.png")
+        image5 = pygame.transform.scale(image5, (screen.get_size()[0], screen.get_size()[1]))
+        back5 = pygame.Surface(screen.get_size())
+        back5 = back5.convert()
+        back5.blit(image5,(0,0))
+        screen.blit(back5,(0,0))
+	#while GPIO.input("P8_11"):
+        pygame.display.flip()	
                 
 	
 #__SETUP_GPIO
