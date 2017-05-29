@@ -148,6 +148,10 @@ back0.blit(image0,(0,0))
 screen.blit(back0,(0,0))
 pygame.display.flip()
 '''
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0d321823f0b9dcbf939783fa4eb331782978e9cb
 
 #__PERMANENT_LOOP
 while True:
