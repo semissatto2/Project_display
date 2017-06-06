@@ -71,7 +71,7 @@ def funcao_0(channel):
                                         	funcao_8()		
 
 def funcao_1():
-	image1 = pygame.image.load("/home/debian/Desktop/shared/beamon.png")
+	image1 = pygame.image.load("/home/debian/Desktop/Project_display/images/beamon.png")
 	image1 = pygame.transform.scale(image1, (screen.get_size()[0], screen.get_size()[1]))
 	back1 = pygame.Surface(screen.get_size())
 	back1 = back1.convert()
@@ -82,7 +82,7 @@ def funcao_1():
 	
 	        
 def funcao_2():
-        image2 = pygame.image.load("/home/debian/Desktop/shared/beamoff.png")
+        image2 = pygame.image.load("/home/debian/Desktop/Project_display/images/beamoff.png")
 	image2 = pygame.transform.scale(image2, (screen.get_size()[0], screen.get_size()[1]))
 	back2 = pygame.Surface(screen.get_size())
 	back2 = back2.convert()
@@ -94,7 +94,7 @@ def funcao_2():
 	
         
 def funcao_3():
-	image3 = pygame.image.load("/home/debian/Desktop/shared/imminent.png")
+	image3 = pygame.image.load("/home/debian/Desktop/Project_display/images/imminent.png")
 	image3 = pygame.transform.scale(image3, (screen.get_size()[0], screen.get_size()[1]))
 	back3 = pygame.Surface(screen.get_size())
 	back3 = back3.convert()
@@ -105,7 +105,7 @@ def funcao_3():
 		
         
 def funcao_4():
-       	image4 = pygame.image.load("/home/debian/Desktop/shared/falha.png")
+       	image4 = pygame.image.load("/home/debian/Desktop/Project_display/images/falha.png")
 	image4 = pygame.transform.scale(image4, (screen.get_size()[0], screen.get_size()[1]))
 	back4 = pygame.Surface(screen.get_size())
 	back4 = back4.convert()
@@ -115,7 +115,7 @@ def funcao_4():
 	pygame.display.flip()
 		
 def funcao_5():
-        image5 = pygame.image.load("/home/debian/Desktop/shared/off.png")
+        image5 = pygame.image.load("/home/debian/Desktop/Project_display/images/off.png")
         image5 = pygame.transform.scale(image5, (screen.get_size()[0], screen.get_size()[1]))
         back5 = pygame.Surface(screen.get_size())
         back5 = back5.convert()
@@ -125,7 +125,7 @@ def funcao_5():
         pygame.display.flip()
 
 def funcao_6():
-        image5 = pygame.image.load("/home/debian/Desktop/shared/5.jpg")
+        image5 = pygame.image.load("/home/debian/Desktop/Project_display/images/5.jpg")
         image5 = pygame.transform.scale(image5, (screen.get_size()[0], screen.get_size()[1]))
         back5 = pygame.Surface(screen.get_size())
         back5 = back5.convert()
@@ -150,7 +150,7 @@ pygame.init()
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 '''
 pygame.mouse.set_visible(0)
-image0 = pygame.image.load("/home/debian/Desktop/shared/off.png")
+image0 = pygame.image.load("/home/debian/Desktop/Project_display/images/off.png")
 image0 = pygame.transform.scale(image0, (screen.get_size()[0], screen.get_size()[1]))
 back0 = pygame.Surface(screen.get_size())
 back0 = back0.convert()
@@ -158,11 +158,6 @@ back0.blit(image0,(0,0))
 screen.blit(back0,(0,0))
 pygame.display.flip()
 '''
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d321823f0b9dcbf939783fa4eb331782978e9cb
-
 #__PERMANENT_LOOP
 while True:
 	time.sleep(1)
