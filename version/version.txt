@@ -1,4 +1,4 @@
-version = 3.2
+version = 3.5
 
 #History
 
@@ -7,7 +7,9 @@ version = 3.2
             
 @4/nov/2016             — Adicionado script de comparação de versão Beaglebone com versão do Repositório;
                         — Adicionado arquivos de áudio /sounds/;
-                        — Adicionado rotinas de automação do script de comparação;
-
+                        — Adicionado rotinas de automação do script de comparação;                        
+                     
 @07/nov/2016            — Adicionado aviso na tela de Beaglebone em update para que não haja interrupção durante sua atualização.
                         (updating_browser.py + sudo bash updating_browser.py em faztudo.sh + images/updating.jpg)
+                        
+@27/jul/2017            — Adicionado imagem 6.png (searching)                        
