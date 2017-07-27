@@ -1,5 +1,5 @@
 #! /usr/bin/env bash
-python /home/debian/Desktop/Project_display/GPIO_callback4.py
+python /home/debian/Desktop/Project_display/GPIO_callback4_sem_browser.py
 
 
 #Script de execucao do codigo Python. 
