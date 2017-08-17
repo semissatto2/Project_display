@@ -20,6 +20,8 @@ def funcao_0(channel):
         if a % 2 == 0:
             x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
             print x
+            directory = "/home/debian/Desktop/Project_display/images/" + str(x) + ".png"
+            print directory
 
 def funcao_1():
 	'''image1 = pygame.image.load("/home/debian/Desktop/Project_display/images/beamon.png")
