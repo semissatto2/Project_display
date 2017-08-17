@@ -25,7 +25,7 @@ def funcao_0(channel):
             image = pygame.image.load(directory)
             image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
             back = pygame.Surface(screen.get_size())
-            back = back1.convert()
+            back = back.convert()
             back.blit(image,(0,0))
             screen.blit(back,(0,0))
             pygame.display.flip()
