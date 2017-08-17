@@ -24,11 +24,11 @@ def funcao_0(channel):
             print directory
             image = pygame.image.load(directory)
             image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
-	        back = pygame.Surface(screen.get_size())
-	        back = back1.convert()
-	        back.blit(image,(0,0))
-	        screen.blit(back,(0,0))
-	        pygame.display.flip()
+            back = pygame.Surface(screen.get_size())
+            back = back1.convert()
+            back.blit(image,(0,0))
+            screen.blit(back,(0,0))
+            pygame.display.flip()
 
 #__SETUP_GPIO
 GPIO.setup("P8_11", GPIO.IN)
