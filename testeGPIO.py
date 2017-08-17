@@ -48,6 +48,5 @@ while True:
 		print("P8_18 HIGH")
 	else:
 		print("P8_18 LOW ")
-		print(type(GPIO.input("P8_18")))
 	print "-------------------------"
 	time.sleep(1)
