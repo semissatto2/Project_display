@@ -22,19 +22,15 @@ def funcao_0(channel):
             print x
             directory = "/home/debian/Desktop/Project_display/images/" + str(x) + ".png"
             print directory
-
-def funcao_1():
-	'''image1 = pygame.image.load("/home/debian/Desktop/Project_display/images/beamon.png")
-	image1 = pygame.transform.scale(image1, (screen.get_size()[0], screen.get_size()[1]))
-	back1 = pygame.Surface(screen.get_size())
-	back1 = back1.convert()
-	back1.blit(image1,(0,0))
-	screen.blit(back1,(0,0))
-	#while GPIO.input("P8_11"):
-	pygame.display.flip()'''
+            image = pygame.image.load(directory)
+            image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
+	        back = pygame.Surface(screen.get_size())
+	        back = back1.convert()
+	        back.blit(image,(0,0))
+	        screen.blit(back,(0,0))
+	        pygame.display.flip()
 
 #__SETUP_GPIO
-
 GPIO.setup("P8_11", GPIO.IN)
 GPIO.add_event_detect("P8_11", GPIO.BOTH, callback=funcao_0, bouncetime=150)
 GPIO.setup("P8_12", GPIO.IN)
