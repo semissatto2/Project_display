@@ -1,5 +1,7 @@
 #!/bin/sh
 
+#Script de configuração completa da BBB (Script burro, nao analisa erros.)
+#Tornar este arquivo executável com $sudo chmod 777 faztudo.sh
 #Banco de cores
 green=`tput setaf 2`
 red=`tput setaf 1`
@@ -41,6 +43,8 @@ echo "${green}Concedendo permissões 777 às rotinas de automação...${reset}"
 cd /home/debian/Desktop/Project_display/
 sudo chmod 777 GPIO_callback4_sem_browser.py
 sudo chmod 777 GPIO_callback4.py
+sudo chmod 777 displayWithoutBrowser.py
+sudo chmod 777 displayWithBrowser.py
 sudo chmod 777 display.sh
 sudo chmod 777 launcher.service
 sudo chmod 777 atualiza.service
@@ -93,5 +97,4 @@ sudo reboot
 
 
 
-#Script de configuração completa da BBB 
-#Tornar este arquivo executável com $sudo chmod 777 faztudo.sh
+
