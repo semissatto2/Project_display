@@ -11,6 +11,7 @@ from sys import exit
 a = 1
 
 #__FUNCTIONS
+#A partir de uma interrupcao, le IO e carrega imagem na tela
 def funcao_0(channel):
         time.sleep(0.03)
         global a
@@ -42,6 +43,19 @@ GPIO.setup("P8_18", GPIO.IN)
 #__SETUP_PYGAME
 pygame.init()
 screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+
+#Le estado das IOs e carrega imagem na tela. (So eh executado uma unica vez)
+x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
+print x
+directory = "/home/debian/Desktop/Project_display/images/" + str(x) + ".png"
+print directory
+image = pygame.image.load(directory)
+image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
+back = pygame.Surface(screen.get_size())
+back = back.convert()
+back.blit(image,(0,0))
+screen.blit(back,(0,0))
+pygame.display.flip()
 
 #__PERMANENT_LOOP
 while True:
