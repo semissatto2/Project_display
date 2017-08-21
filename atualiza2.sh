@@ -7,7 +7,7 @@ for i in {0..4..2}
     sudo xdotool key F5
     sudo mkdir /home/debian/Desktop/shared
     mount.cifs //stnls02.lnls.br/CommonSystems_Sirius/BEAGLETemp/ /home/debian/Desktop/shared/ -o credentials=/home/debian/Desktop/Project_display/pwd.txt
-    sudo cp /home/debian/Desktop/shared/* /home/debian/Desktop/Project_display/images/
+    #sudo cp /home/debian/Desktop/shared/* /home/debian/Desktop/Project_display/images/
 
   done
 exit 0
