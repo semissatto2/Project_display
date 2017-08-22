@@ -21,7 +21,7 @@ def funcao_0(channel):
         if a % 2 == 0:
             x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
 			
-			directory_shared = "/home/debian/Desktop/shared/" + str(x) + ".png"
+	    directory_shared = "/home/debian/Desktop/shared/" + str(x) + ".png"
             directory_interno = "/home/debian/Desktop/Project_display/images/" + str(x) + ".png"
 			
 			# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
