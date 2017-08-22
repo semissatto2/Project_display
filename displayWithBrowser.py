@@ -28,7 +28,7 @@ def funcao_0(channel):
 		try:
 			print directory_shared
 			image = pygame.image.load(directory_shared)
-        except:
+		except:
 			print directory_interno
 			image = pygame.image.load(directory_interno)
 
