@@ -20,17 +20,16 @@ def funcao_0(channel):
                 a = 1
         if a % 2 == 0:
             x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
-            print x
 			
 			directory_shared = "/home/debian/Desktop/shared/" + str(x) + ".png"
             directory_interno = "/home/debian/Desktop/Project_display/images/" + str(x) + ".png"
-            print directory_shared
-			print directory_interno
 			
 			# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
 			try:
+				print directory_shared
 				image = pygame.image.load(directory_shared)
 			except:
+				print directory_interno
 				image = pygame.image.load(directory_interno)
             
 			image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
@@ -62,8 +61,10 @@ print directory_interno
 			
 # Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
 try:
+	print directory_shared
 	image = pygame.image.load(directory_shared)
 except:
+	print directory_interno
 	image = pygame.image.load(directory_interno)
 	
 image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
@@ -76,6 +77,7 @@ pygame.display.flip()
 #__PERMANENT_LOOP
 while True:
 	time.sleep(1)
+	#Se apertar ESC ou 'Xzinho da janela', fecha a tela
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			exit()
