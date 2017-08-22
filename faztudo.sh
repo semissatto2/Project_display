@@ -41,8 +41,6 @@ sleep 5
 
 echo "${green}Concedendo permissões 777 às rotinas de automação...${reset}"
 cd /home/debian/Desktop/Project_display/
-sudo chmod 777 GPIO_callback4_sem_browser.py
-sudo chmod 777 GPIO_callback4.py
 sudo chmod 777 displayWithoutBrowser.py
 sudo chmod 777 displayWithBrowser.py
 sudo chmod 777 display.sh
@@ -92,7 +90,7 @@ echo "${green}Inicializando os scripts de automação...${reset}"
 sudo systemctl start launcher.service
 sudo systemctl start atualiza.service
 sudo systemctl start compare.service
-echo "${green}Beaglebone completamente configurada! Reiniciando...${reset}"
+echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
 sudo reboot
 
 
