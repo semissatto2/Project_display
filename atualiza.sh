@@ -5,7 +5,7 @@ export GOOGLE_DEFAULT_CLIENT_SECRET="no"
 
 
 sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' /home/debian/.config/chromium/Default/Preferences
-chromium --kiosk --disable-infobars --disable-session-crashed-bubble http://10.2.105.115:8080/LinhaInfoWeb/
+chromium --kiosk --disable-infobars --disable-session-crashed-bubble https://status.lnls.br/
 unclutter -idle 1 -root
 echo "press ctrl c to stop"
 exit 0
