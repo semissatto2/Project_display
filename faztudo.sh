@@ -15,8 +15,8 @@ echo "${red}Script feito por ${green}guilherme.semissatto@lnls.br${reset}"
 sleep 5
 
 #Aviso na tela
-sudo chmod 777 /home/debian/Desktop/Project_display/updating_display.py
-sudo python /home/debian/Desktop/Project_display/updating_display.py &
+sudo chmod 777 /home/debian/Desktop/Project_display/OLD_scripts/updating_display.py
+sudo python /home/debian/Desktop/Project_display/OLD_scripts/updating_display.py &
 
 echo "${green}Atualizando data do sistema...${reset}"
 sudo ntpdate pool.ntp.org
@@ -80,7 +80,3 @@ echo "${green}Inicializando os scripts de automação...${reset}"
 #sudo systemctl start compare.service
 echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
 #sudo reboot
-
-
-
-
