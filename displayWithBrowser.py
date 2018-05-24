@@ -4,14 +4,14 @@ import time
 import pygame
 from pygame.locals import *
 from sys import exit
+import os
 
-#__GLOBAL_VARIABLES_CONTROL
-a = 1
-
+def print_echo(msg):
+	os.system("echo " + str(msg))
 
 #__FUNCTIONS
 def new_msg():
-	print "funcao0"
+	print_echo("new CLP command")
 	time.sleep(0.05)
 
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)	
@@ -22,10 +22,10 @@ def new_msg():
 
 	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
 	try:
-		print directory_shared
+		print_echo(directory_shared)
 		image = pygame.image.load(directory_shared)
 	except:
-		print directory_interno
+		print_echo(directory_interno)
 		image = pygame.image.load(directory_interno)
 
 	image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
@@ -36,6 +36,7 @@ def new_msg():
 	while GPIO.input("P8_11"):
 		pygame.display.flip()
 	#time.sleep(0.5)
+	print_echo("end of command")
 	pygame.quit()
 
 #__SETUP
@@ -48,7 +49,7 @@ GPIO.setup("P8_17", GPIO.IN)
 GPIO.setup("P8_18", GPIO.IN)
 pygame.init()
 
-print "Listening CLP"
+os.system("echo 'Listening CLP'")
 
 #__PERMANENT_LOOP
 while True:
