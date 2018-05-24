@@ -51,35 +51,35 @@ sleep 5
 
 echo "${green}Copiando arquivos...${reset}"
 cd /home/debian/Desktop/Project_display/
-cp display.sh /usr/bin/display.sh
-cp launcher.service /lib/systemd/launcher.service
-cp compare.service /lib/systemd/compare.service
-cp compare.sh /usr/bin/compare.sh
-cp browser_init.sh /usr/bin/browser_init.sh
-sudo mkdir /home/debian/.config/autostart/
-cp browser_init.desktop /home/debian/.config/autostart/browser_init.desktop
+#cp display.sh /usr/bin/display.sh
+#cp launcher.service /lib/systemd/launcher.service
+#cp compare.service /lib/systemd/compare.service
+#cp compare.sh /usr/bin/compare.sh
+#cp browser_init.sh /usr/bin/browser_init.sh
+#sudo mkdir /home/debian/.config/autostart/
+#cp browser_init.desktop /home/debian/.config/autostart/browser_init.desktop
 sudo mkdir /home/debian/Downloads/
 cp /home/debian/Desktop/Project_display/version/version.txt /home/debian/Downloads/version.txt
 echo "${green}Arquivos copiados...${reset}"
 sleep 3
 
 echo "${green}Incorporando scripts de automação ao sistema...${reset}"
-ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
-sudo systemctl daemon-reload
-sudo systemctl enable /lib/systemd/launcher.service
-ln -s /lib/systemd/compare.service /etc/systemd/system/compare.service
-sudo systemctl daemon-reload
-sudo systemctl enable /lib/systemd/compare.service
+#ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
+#sudo systemctl daemon-reload
+#sudo systemctl enable /lib/systemd/launcher.service
+#ln -s /lib/systemd/compare.service /etc/systemd/system/compare.service
+#sudo systemctl daemon-reload
+#sudo systemctl enable /lib/systemd/compare.service
 echo "${green}Scripts incorporados ao sistema...${reset}"
 sleep 3
 
 
 
 echo "${green}Inicializando os scripts de automação...${reset}"
-sudo systemctl start launcher.service
-sudo systemctl start compare.service
+#sudo systemctl start launcher.service
+#sudo systemctl start compare.service
 echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
-sudo reboot
+#sudo reboot
 
 
 
