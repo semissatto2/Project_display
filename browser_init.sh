@@ -6,19 +6,17 @@ export GOOGLE_DEFAULT_CLIENT_SECRET="no"
 export XAUTHORITY=~/.Xauthority
 export DISPLAY=:0.0
 
-sudo echo $(awk '{print $1}' /proc/uptime)
-
-sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Starting Script'>>/home/debian/Desktop/Project_display/log.txt
+sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Starting Script'>/var/log/browser_init.log
 
 while true
 do
 	ping -c 1 www.google.com.br
 	if [[ $? == 0 ]];
 	then
-		sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Network available.'>>/home/debian/Desktop/Project_display/log.txt
+		sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Network available.'>>/var/log/browser_init.log
 		break;
 	else
-		sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Network is not available, waiting..'>>/home/debian/Desktop/Project_display/log.txt
+		sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Network is not available, waiting..'>>/var/log/browser_init.log
 		sleep 5
 	fi
 done
@@ -29,7 +27,7 @@ su debian -c "midori -a https://status.lnls.br -e Fullscreen &"
 
 echo "press ctrl c to stop"
 
-sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Starting Loop'>>/home/debian/Desktop/Project_display/log.txt
+sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Starting Loop'>>/var/log/browser_init.log
 
 exit 0
 
@@ -42,7 +40,7 @@ for i in {0..4..2}
 
   done
 
-sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Ending Script'>>/home/debian/Desktop/Project_display/log.txt
+sudo echo '['$(awk '{print $1}' /proc/uptime)'] - Ending Script'>>/var/log/browser_init.log
 
 exit 0
 
