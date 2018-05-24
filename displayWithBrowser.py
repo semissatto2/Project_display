@@ -20,14 +20,14 @@ def new_msg():
 	x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
 
 	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
-    try:
-        directory_shared = "/home/debian/Desktop/shared/" + str(x) + ".png"
-        image = pygame.image.load(directory_shared)
-        print_echo(directory_shared)
-    except:
-        directory_interno = "/home/debian/Desktop/Project_display/images/" + str(x) + ".png"
-        image = pygame.image.load(directory_interno)
-        print_echo(directory_interno)
+    	try:
+        	directory_shared = "/home/debian/Desktop/shared/" + str(x) + ".png"
+        	image = pygame.image.load(directory_shared)
+        	print_echo(directory_shared)
+    	except:
+        	directory_interno = "/home/debian/Desktop/Project_display/images/" + str(x) + ".png"
+        	image = pygame.image.load(directory_interno)
+        	print_echo(directory_interno)
 
 	image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
 	back = pygame.Surface(screen.get_size())

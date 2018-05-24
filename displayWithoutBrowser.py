@@ -19,7 +19,7 @@ def display_image(file_name):
             image = pygame.image.load(directory_shared)
             print_echo(directory_shared)
         except:
-            directory_interno = "/home/debian/Desktop/shared/" + file_name
+            directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
             image = pygame.image.load(directory_interno)
             print_echo(directory_interno)
         image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
@@ -60,11 +60,11 @@ while True:
 	time.sleep(1)
 
 	#Se apertar ESC ou 'Xzinho da janela', fecha a tela
-    '''
+    	'''
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			sys.exit()
 		elif event.type == KEYDOWN:
 			if event.key == K_ESCAPE:
 				sys.exit()
-    '''
+    	'''
