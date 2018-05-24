@@ -1,5 +1,8 @@
 #! /usr/bin/env bash
-python /home/debian/Desktop/Project_display/displayWithoutBrowser.py
+#python /home/debian/Desktop/Project_display/displayWithoutBrowser.py
+
+python /home/debian/Desktop/Project_display/displayWithBrowser.py
+
 
 
 #Script de execucao do codigo Python. 

@@ -23,7 +23,7 @@ sudo ntpdate pool.ntp.org
 echo "${green}Time stamp atualizado${reset}"
 echo "${green}Atualizando Debian e obtendo pacotes Python pip, Adafruit, Pygame, Xdotool, Unclutter, Samba...${reset}"
 sudo apt-get update
-sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus -y
+sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus midori -y
 sudo pip install Adafruit_BBIO
 sudo apt-get install python-pygame -y
 sudo apt-get install xdotool -y
@@ -44,12 +44,7 @@ cd /home/debian/Desktop/Project_display/
 sudo chmod 777 displayWithoutBrowser.py
 sudo chmod 777 displayWithBrowser.py
 sudo chmod 777 display.sh
-sudo chmod 777 launcher.service
-sudo chmod 777 atualiza.service
-sudo chmod 777 autoscript.desktop
-sudo chmod 777 autoscript2.desktop
-sudo chmod 777 atualiza.sh
-sudo chmod 777 atualiza2.sh
+sudo chmod 777 browser_init.sh
 sudo chmod 777 compare.sh
 echo "${green}Permissões concedidas...${reset}"
 sleep 5
@@ -58,14 +53,11 @@ echo "${green}Copiando arquivos...${reset}"
 cd /home/debian/Desktop/Project_display/
 cp display.sh /usr/bin/display.sh
 cp launcher.service /lib/systemd/launcher.service
-cp atualiza.service /lib/systemd/atualiza.service
 cp compare.service /lib/systemd/compare.service
 cp compare.sh /usr/bin/compare.sh
-cp atualiza.sh /usr/bin/atualiza.sh
-cp atualiza2.sh /usr/bin/atualiza2.sh
+cp browser_init.sh /usr/bin/browser_init.sh
 sudo mkdir /home/debian/.config/autostart/
-cp autoscript.desktop /home/debian/.config/autostart/autoscript.desktop
-cp autoscript2.desktop /home/debian/.config/autostart/autoscript2.desktop
+cp browser_init.desktop /home/debian/.config/autostart/browser_init.desktop
 sudo mkdir /home/debian/Downloads/
 cp /home/debian/Desktop/Project_display/version/version.txt /home/debian/Downloads/version.txt
 echo "${green}Arquivos copiados...${reset}"
@@ -75,9 +67,6 @@ echo "${green}Incorporando scripts de automação ao sistema...${reset}"
 ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
 sudo systemctl daemon-reload
 sudo systemctl enable /lib/systemd/launcher.service
-ln -s /lib/systemd/atualiza.service /etc/systemd/system/atualiza.service
-sudo systemctl daemon-reload
-sudo systemctl enable /lib/systemd/atualiza.service
 ln -s /lib/systemd/compare.service /etc/systemd/system/compare.service
 sudo systemctl daemon-reload
 sudo systemctl enable /lib/systemd/compare.service
@@ -88,7 +77,6 @@ sleep 3
 
 echo "${green}Inicializando os scripts de automação...${reset}"
 sudo systemctl start launcher.service
-sudo systemctl start atualiza.service
 sudo systemctl start compare.service
 echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
 sudo reboot
