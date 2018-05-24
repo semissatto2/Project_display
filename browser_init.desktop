@@ -1,0 +1,11 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Type=Application
+Exec=sudo /usr/bin/browser_init.sh
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enable=true
+Name=Autochromium
+Comment=Autochromium_autostart
+
+#Este arquivo deve ser colocado em /home/debian/.config/autostart/autoscript.desktop

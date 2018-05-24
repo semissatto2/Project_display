@@ -1,0 +1,83 @@
+[2878.85] - Starting Script
+[2878.95] - Network available.
+[3161.30] - Starting Script
+[3161.41] - Network available.
+[3265.54] - Starting Script
+[3265.64] - Network available.
+[3301.27] - Starting Script
+[3301.35] - Network available.
+[4159.20] - Starting Script
+[4159.30] - Network available.
+[4300.02] - Starting Script
+[4300.14] - Network available.
+[4375.43] - Starting Script
+[4375.55] - Network available.
+[4445.54] - Starting Script
+[4445.64] - Network available.
+[4461.31] - Starting Loop
+[4478.91] - Starting Script
+[4478.99] - Network available.
+[4479.10] - Starting Loop
+[4661.38] - Starting Script
+[4662.11] - Network available.
+[4662.42] - Starting Loop
+[143.75] - Starting Script
+[144.06] - Network available.
+[144.44] - Starting Loop
+[554.67] - Starting Script
+[554.80] - Network available.
+[554.90] - Starting Loop
+[812.89] - Starting Script
+[813.01] - Network available.
+[813.36] - Starting Loop
+[894.97] - Starting Script
+[895.11] - Network available.
+[895.73] - Starting Loop
+[962.15] - Starting Script
+[962.31] - Network available.
+[962.67] - Starting Loop
+[996.59] - Starting Script
+[996.69] - Network available.
+[1024.69] - Starting Loop
+[1070.38] - Starting Script
+[1070.47] - Network available.
+[1090.29] - Starting Loop
+[1150.55] - Starting Script
+[1150.66] - Network available.
+[1164.18] - Starting Loop
+[1231.02] - Starting Script
+[1231.14] - Network available.
+[1494.14] - Starting Loop
+[181.55] - Starting Script
+[181.65] - Network available.
+[198.67] - Starting Loop
+[22.61] - Starting Script
+[23.07] - Network is not available, waiting..
+[28.68] - Network is not available, waiting..
+[34.07] - Network is not available, waiting..
+[39.23] - Network is not available, waiting..
+[44.42] - Network available.
+[23.03] - Starting Script
+[23.43] - Network is not available, waiting..
+[29.30] - Network is not available, waiting..
+[34.58] - Network is not available, waiting..
+[39.73] - Network is not available, waiting..
+[44.90] - Network available.
+[135.33] - Starting Script
+[135.50] - Network available.
+[166.62] - Starting Loop
+[221.41] - Starting Loop
+[230.61] - Starting Script
+[230.72] - Network available.
+[251.38] - Starting Loop
+[380.61] - Starting Script
+[380.69] - Network available.
+[381.31] - Starting Loop
+[22.86] - Starting Script
+[23.34] - Network is not available, waiting..
+[29.02] - Network is not available, waiting..
+[34.32] - Network is not available, waiting..
+[39.50] - Network is not available, waiting..
+[54.63] - Network is not available, waiting..
+[59.79] - Network available.
+[60.37] - Starting Loop
