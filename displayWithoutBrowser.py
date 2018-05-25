@@ -11,9 +11,8 @@ def print_echo(msg):
 
 #__FUNCTIONS
 def display_image(file_name):
-        screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
-        pygame.mouse.set_visible(0)
-		# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
+        
+	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
         try:
             directory_shared = "/home/debian/Desktop/shared/" + file_name
             image = pygame.image.load(directory_shared)
@@ -53,29 +52,36 @@ print_echo("Starting RAIS")
 
 #__SETUP_PYGAME
 pygame.init()
+screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)   
+pygame.mouse.set_visible(0)
 
-
-online = 0
+offline = 1
 hostname = "www.google.com" #ping host to check connectivity
-for i in range(10):
+for i in range(2):
 	display_image("connecting.png")
-	if os.system("ping -c 1 " + hostname) == 0:
-		online = 1
+	if os.system("ping -c 2 -W 1 " + hostname) == 0:
+		offline = 0
 		break
-	sleep(4)
+	time.sleep(4)
 	display_image("waiting.jpg")
-	sleep(1)
+	time.sleep(1)
 
-if online:
+if offline == 0:
 	display_image("ready.png")
-else
+else:
 	display_image("ready_offline.png")
 
 print_echo("Listening CLP")
 
 #__PERMANENT_LOOP
 while True:
-	time.sleep(1)
+	if (os.system("ping -c 2 -W 1 " + hostname)==0) == offline:
+		offline = not offline;
+		if offline == 0:
+			display_image("ready.png")
+		else:
+			display_image("ready_offline.png")
+	time.sleep(10)
 
 	#Se apertar ESC ou 'Xzinho da janela', fecha a tela
     	'''
