@@ -49,11 +49,29 @@ GPIO.setup("P8_18", GPIO.IN) #BIT 3
 GPIO.setup("P8_17", GPIO.IN) #CLP KEEP-ALIVE
 GPIO.add_event_detect("P8_17",GPIO.FALLING, callback=clp_dead, bouncetime=100)
 
+print_echo("Starting RAIS")
+
 #__SETUP_PYGAME
 pygame.init()
 
+
+online = 0
+hostname = "www.google.com" #ping host to check connectivity
+for i in range(10):
+	display_image("connecting.png")
+	if os.system("ping -c 1 " + hostname) == 0:
+		online = 1
+		break
+	sleep(4)
+	display_image("waiting.jpg")
+	sleep(1)
+
+if online:
+	display_image("ready.png")
+else
+	display_image("ready_offline.png")
+
 print_echo("Listening CLP")
-display_image("waiting.jpg")
 
 #__PERMANENT_LOOP
 while True:
