@@ -12,6 +12,7 @@ def print_echo(msg):
 #__FUNCTIONS
 def display_image(file_name):
         
+	pygame.mouse.set_visible(0)
 	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
 	try:
 		directory_shared = "/home/debian/Desktop/shared/" + file_name
@@ -21,7 +22,6 @@ def display_image(file_name):
 		directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
 		image = pygame.image.load(directory_interno)
 		print_echo(directory_interno)
-	pygame.mouse.set_visible(0)
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
 	back = pygame.Surface(screen.get_size())
@@ -52,26 +52,12 @@ GPIO.add_event_detect("P8_17",GPIO.FALLING, callback=clp_dead, bouncetime=100)
 
 print_echo("Starting RAIS")
 
-#os.system("export DISPLAY=:0.0")
-#os.system("export XAUTHORITY=~/.Xauthority")
-
-'''
-found = False
-for driver in drivers:
-	# Make sure that SDL_VIDEODRIVER is set
-	if not os.getenv('SDL_VIDEODRIVER'):
-		os.putenv('SDL_VIDEODRIVER', driver)
-	try:
-		pygame.display.init()
-	except pygame.error:
-		print 'Driver: {0} failed.'.format(driver)
-		continue
-	found = True
-	break
-'''
 pygame.init()
-time.sleep(1)
-print("test")
+
+browser = 0
+if len (sys.argv) != 1:
+	if sys.argv[1] == 'browser':
+		browser = 1
 
 offline = 1
 hostname = "www.google.com" #ping host to check connectivity
@@ -86,30 +72,37 @@ for i in range(2):
 
 if offline == 0:
 	display_image("ready.png")
-	os.system('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"')
+	if browser:
+		if sys.argv[-1] =='chromium':
+			os.system('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"')
+		else:
+			os.system('/home/debian/Desktop/Project_display/launcher_browser.sh')
 else:
 	display_image("ready_offline.png")
 
 print_echo("Listening CLP")
 
 try:
-	time.sleep(20)
 	#__PERMANENT_LOOP
-
 	while True:
 		if (os.system("ping -c 2 -W 1 " + hostname)==0) == offline:
 			offline = not offline;
-		pygame.display.quit()
-		time.sleep(10)
-		pygame.display.init()
-		screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
-		if offline == 0:
-			display_image("ready.png")
-		else:
-			display_image("ready_offline.png")	
+			if offline == 0:
+				display_image("ready.png")
+			else:
+				display_image("ready_offline.png")
+		if browser and (not offline):
+			pygame.display.quit()
+			time.sleep(10)
+			pygame.display.init()
+			if offline == 0:
+				display_image("ready.png")
+			else:
+				display_image("ready_offline.png")			
 		time.sleep(2)
 		#Se apertar ESC ou 'Xzinho da janela', fecha a tela
 		
 except KeyboardInterrupt:
 	os.system("pkill chromium")
+	os.system("pkill midori")
 	print_echo("Ending Script")
