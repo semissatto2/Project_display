@@ -3,7 +3,8 @@ Description=My Launcher Service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/display.sh
+User=debian
+ExecStart=/home/debian/Desktop/Project_display/launcher_rais.sh
 
 [Install]
 WantedBy=multi-user.target

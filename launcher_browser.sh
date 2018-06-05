@@ -18,4 +18,4 @@ else
 	unclutter &
 fi
 
-midori -e Fullscreen -e Navigationbar -a https://status.lnls.br &
+midori -e Fullscreen -e Navigationbar -a https://status.lnls.br >>/dev/null & 

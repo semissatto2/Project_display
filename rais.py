@@ -11,17 +11,17 @@ def print_echo(msg):
 
 #__FUNCTIONS
 def display_image(file_name):
-        
+
 	pygame.mouse.set_visible(0)
 	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
 	try:
 		directory_shared = "/home/debian/Desktop/shared/" + file_name
 		image = pygame.image.load(directory_shared)
-		print_echo(directory_shared)
+		#print_echo(directory_shared)
 	except:
 		directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
 		image = pygame.image.load(directory_interno)
-		print_echo(directory_interno)
+		#print_echo(directory_interno)
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
 	back = pygame.Surface(screen.get_size())
@@ -34,11 +34,16 @@ def display_image(file_name):
 def new_msg():
         print_echo("new CLP command")
         x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
-        display_image(str(x)+".png")
+        image_file=str(x)+".png"
+	pygame.display.init()
+	display_image(image_file)
         print_echo("end of command")
 
 def clp_dead():
-    print_echo("CLP dead")
+	print_echo("CLP dead")
+	pygame.display.init()
+	image_file="plc_failure.jpg"
+	display_image(image_file)
 
 #__SETUP_GPIO
 GPIO.setup("P8_11", GPIO.IN)
@@ -71,37 +76,36 @@ for i in range(2):
 	time.sleep(1)
 
 if offline == 0:
-	display_image("ready.png")
+	image_file = "ready.png"
 	if browser:
 		if sys.argv[-1] =='chromium':
 			os.system('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"')
 		else:
 			os.system('/home/debian/Desktop/Project_display/launcher_browser.sh')
 else:
-	display_image("ready_offline.png")
+	image_file = "ready_offline.png"
 
+display_image(image_file)
 print_echo("Listening CLP")
 
 try:
 	#__PERMANENT_LOOP
 	while True:
-		if (os.system("ping -c 2 -W 1 " + hostname)==0) == offline:
+		if (os.system("ping -c 2 -W 1 " + hostname + " >> /dev/null")==0) == offline:
 			offline = not offline;
 			if offline == 0:
-				display_image("ready.png")
+				image_file = "ready.png"
 			else:
-				display_image("ready_offline.png")
+				image_file = "ready_offline.png"
+			display_image(image_file)
 		if browser and (not offline):
 			pygame.display.quit()
 			time.sleep(10)
 			pygame.display.init()
-			if offline == 0:
-				display_image("ready.png")
-			else:
-				display_image("ready_offline.png")			
+			display_image(image_file)
 		time.sleep(2)
 		#Se apertar ESC ou 'Xzinho da janela', fecha a tela
-		
+
 except KeyboardInterrupt:
 	os.system("pkill chromium")
 	os.system("pkill midori")
