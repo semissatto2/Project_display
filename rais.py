@@ -16,19 +16,34 @@ def display_image(file_name):
 	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
 	try:
 		directory_shared = "/home/debian/Desktop/shared/" + file_name
-		image = pygame.image.load(directory_shared)
+		image = pygame.image.load(directory_shared).convert()
 		#print_echo(directory_shared)
 	except:
 		directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
-		image = pygame.image.load(directory_interno)
+		image = pygame.image.load(directory_interno).convert()
 		#print_echo(directory_interno)
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
-	back = pygame.Surface(screen.get_size())
-	back = back.convert()
-	back.blit(image,(0,0))
-	screen.blit(back,(0,0))
+
+	sprite = pygame.sprite.Sprite()
+	sprite.image = image
+	sprite.rect = image.get_rect()
+
+	if offline:
+		font = pygame.font.SysFont('Sans', 50)
+		text = font.render('OFFLINE MODE', True, (255, 0, 0))
+		sprite.image.blit(text, sprite.rect)
+
+	group = pygame.sprite.Group()
+	group.add(sprite)
+	group.draw(screen)
+
 	pygame.display.flip()
+	#back = pygame.Surface(screen.get_size())
+	#back = back.convert()
+	#back.blit(image,(0,0))
+	#screen.blit(back,(0,0))
+	#pygame.display.flip()
 
 #A partir de uma interrupcao, le IO e carrega imagem na tela
 def new_msg():
@@ -76,7 +91,7 @@ for i in range(2):
 	time.sleep(1)
 
 if offline == 0:
-	image_file = "ready.png"
+	image_file = "ready.jpg"
 	if browser:
 		if sys.argv[-1] =='chromium':
 			os.system('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"')
@@ -94,7 +109,7 @@ try:
 		if (os.system("ping -c 2 -W 1 " + hostname + " >> /dev/null")==0) == offline:
 			offline = not offline;
 			if offline == 0:
-				image_file = "ready.png"
+				image_file = "ready.jpg"
 			else:
 				image_file = "ready_offline.png"
 			display_image(image_file)
