@@ -2,7 +2,6 @@
 import Adafruit_BBIO.GPIO as GPIO
 import time
 import pygame
-#from pygame.locals import *
 import sys
 import os
 
@@ -13,37 +12,30 @@ def print_echo(msg):
 def display_image(file_name):
 
 	pygame.mouse.set_visible(0)
+
 	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
 	try:
 		directory_shared = "/home/debian/Desktop/shared/" + file_name
-		image = pygame.image.load(directory_shared).convert()
+		image = pygame.image.load(directory_shared)
 		#print_echo(directory_shared)
 	except:
 		directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
-		image = pygame.image.load(directory_interno).convert()
+		image = pygame.image.load(directory_interno)
 		#print_echo(directory_interno)
+
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
-	image = pygame.transform.scale(image, (screen.get_size()[0], screen.get_size()[1]))
+	image = pygame.transform.scale(image,screen.get_size())
 
-	sprite = pygame.sprite.Sprite()
-	sprite.image = image
-	sprite.rect = image.get_rect()
+        print_echo("Inside display_image 4: Offline = "+str(offline))
 
-	if offline:
-		font = pygame.font.SysFont('Sans', 50)
+	screen.blit(image,(0,0))
+
+	if offline == True:
+		font = pygame.font.SysFont('Sans',80)
 		text = font.render('OFFLINE MODE', True, (255, 0, 0))
-		sprite.image.blit(text, sprite.rect)
-
-	group = pygame.sprite.Group()
-	group.add(sprite)
-	group.draw(screen)
+		screen.blit(text,(0,0))
 
 	pygame.display.flip()
-	#back = pygame.Surface(screen.get_size())
-	#back = back.convert()
-	#back.blit(image,(0,0))
-	#screen.blit(back,(0,0))
-	#pygame.display.flip()
 
 #A partir de uma interrupcao, le IO e carrega imagem na tela
 def new_msg():
@@ -73,53 +65,48 @@ GPIO.add_event_detect("P8_17",GPIO.FALLING, callback=clp_dead, bouncetime=100)
 print_echo("Starting RAIS")
 
 pygame.init()
-
+offline = True
 browser = 0
 if len (sys.argv) != 1:
 	if sys.argv[1] == 'browser':
 		browser = 1
 
-offline = 1
-hostname = "www.google.com" #ping host to check connectivity
+hostname = "www.google.com.br" #ping host to check connectivity
 for i in range(2):
-	display_image("connecting.png")
-	if os.system("ping -c 2 -W 1 " + hostname) == 0:
-		offline = 0
+	display_image("connecting.jpg")
+	if os.system("ping -c 2 " + hostname + " > /dev/null 2> /dev/null") == 0:
+		offline = False
 		break
 	time.sleep(4)
 	display_image("waiting.jpg")
 	time.sleep(1)
 
-if offline == 0:
-	image_file = "ready.jpg"
+image_file = "ready.jpg"
+
+if offline == False:
 	if browser:
 		if sys.argv[-1] =='chromium':
 			os.system('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"')
 		else:
 			os.system('/home/debian/Desktop/Project_display/launcher_browser.sh')
-else:
-	image_file = "ready_offline.png"
-
 display_image(image_file)
 print_echo("Listening CLP")
 
 try:
 	#__PERMANENT_LOOP
 	while True:
-		if (os.system("ping -c 2 -W 1 " + hostname + " >> /dev/null")==0) == offline:
-			offline = not offline;
-			if offline == 0:
-				image_file = "ready.jpg"
-			else:
-				image_file = "ready_offline.png"
+		if (os.system("ping -c 2 " + hostname + " > /dev/null 2> /dev/null")==0) == offline:
+			offline = not offline
+			print_echo("Connection Status Changed: Offline = "+str(offline))
 			display_image(image_file)
+
 		if browser and (not offline):
 			pygame.display.quit()
 			time.sleep(10)
 			pygame.display.init()
 			display_image(image_file)
+
 		time.sleep(2)
-		#Se apertar ESC ou 'Xzinho da janela', fecha a tela
 
 except KeyboardInterrupt:
 	os.system("pkill chromium")
