@@ -1,0 +1,14 @@
+RAIS CONFIGURATION FILE
+
+client_name                BBB1
+broker_address             10.2.105.113
+ping_host                  www.google.com.br
+shared_folder 		       //stnls02.lnls.br/CommonSystems_Sirius/BEAGLETemp/
+folder_username 	       userxrd
+folder_password 	       difrac2
+browser                    no
+background_color           000000
+font_color                 FFFFFF
+delay_browser              10
+delay_message			   4
+delay_ping                 2
