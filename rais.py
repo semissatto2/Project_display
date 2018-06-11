@@ -16,6 +16,7 @@ browser_launched = 0
 delay_browser = 10
 delay_msg = 4
 delay_ping = 2
+ip_address = "none"
 
 #DEFAULT CONFIG VARIABLES
 hostname = "www.google.com.br" 		#host to ping in order to check connectivity
@@ -65,7 +66,7 @@ config_file.close()
 #create function for message callback
 def on_message(client, userdata, message):
 	global font_color,background_color,browser,browser_launched
-	print_echo("message received = " +str(message.payload) + "\ttopic = " + str(message.topic)+ "\tqos = " + str(message.qos))
+	#print_echo("message received = " +str(message.payload) + "\ttopic = " + str(message.topic)+ "\tqos = " + str(message.qos))
 	#print("message retain flag = "+str(message.retain)+"\n")
 	if str(message.topic) == "RAIS/"+client_name+"/msg" or str(message.topic) == "RAIS/global/msg":
 		display_text(str(message.payload),font_color,background_color)
@@ -84,14 +85,15 @@ def on_message(client, userdata, message):
 				os.system("pkill midori")
 				browser_launched = 0	
 			browser = 0
-			
+	elif str(message.topic) == "RAIS/"+client_name+"/img" or str(message.topic) == "RAIS/global/img":
+		display_image(str(message.payload))
 		
 	
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
 	print("Connected flags"+str(flags)+"result code "+str(rc)+"client_id \n")
-	#display_text("MQTT Connected",(0,0,0),(0,255,0))
+	display_text("MQTT Connected",(0,0,0),(0,255,0))
 	global font_color,background_color,browser,flag_connected
 	flag_connected = 1
 	
@@ -109,6 +111,7 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/"+client_name+"/config/color")
 	print("Subscribing to topic: "+"RAIS/"+client_name+"/config/bg\n")
 	client.subscribe("RAIS/"+client_name+"/config/bg")
+
 	
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
@@ -129,8 +132,8 @@ def on_connect(client, userdata, flags, rc):
 	print("Subscribing to topic: RAIS/global/config/bg\n")
 	client.subscribe("RAIS/global/config/bg")
 	
-	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online - true")
-	client.publish("RAIS/"+client_name+"/online","true")
+	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
+	client.publish("RAIS/"+client_name+"/online",ip_address)
 
 #create function for log callback
 def on_log(client, userdata, level, buf):
@@ -150,37 +153,14 @@ def	on_unsubscribe(client, userdata, mid):
 	
 #create function for disconnect callback
 def	on_disconnect(client, userdata, rc):
+	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online : false")
+	client.publish("RAIS/"+client_name+"/online","false")
+
 	print_echo("MQTT disconnected: "+str(rc)+"\n")
 	display_text("MQTT Disconnected",(0,0,0),(255,0,0))
-	#global flag_connected
-	#flag_connected = 0
+	global flag_connected
+	flag_connected = 0
 
-#load image from file and display
-def display_image(file_name):
-	if pygame.display.get_init() == False:
-		pygame.display.init()
-	pygame.mouse.set_visible(0)
-	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
-	try:
-		directory_shared = "/home/debian/Desktop/shared/" + file_name
-		image = pygame.image.load(directory_shared)
-		#print_echo(directory_shared)
-	except:
-		directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
-		image = pygame.image.load(directory_interno)
-		#print_echo(directory_interno)
-
-	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
-	image = pygame.transform.scale(image,screen.get_size())
-	screen.blit(image,(0,0))
-
-	if offline == True:
-		font = pygame.font.SysFont('Sans',80)
-		text = font.render('OFFLINE MODE', True, (255, 0, 0))
-		screen.blit(text,(0,0))
-
-	pygame.display.flip()
-	
 #load image from file and display
 def display_text(text_msg,text_color,background):
 	if pygame.display.get_init() == False:
@@ -218,32 +198,67 @@ def display_text(text_msg,text_color,background):
 		text = font.render('OFFLINE MODE', True, (255, 0, 0))
 		screen.blit(text,(0,0))
 	pygame.display.flip()
+	
+#load image from file and display
+def display_image(file_name):
+	if pygame.display.get_init() == False:
+		pygame.display.init()
+	pygame.mouse.set_visible(0)
+	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
+	directory_shared = "/home/debian/Desktop/shared/" + file_name
+	directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
+	if os.path.isfile(directory_shared):
+		image = pygame.image.load(directory_shared)
+		#print_echo(directory_shared)
+	elif os.path.isfile(directory_interno):
+		image = pygame.image.load(directory_interno)
+		#print_echo(directory_interno)
+	else:	
+		display_text("ERROR: File Not Found",(0,0,0),(255,0,0)) #Erro caso imagem nao seja encontrada
+		return
+	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+	image = pygame.transform.scale(image,screen.get_size())
+	screen.blit(image,(0,0))
+
+	if offline == True:
+		font = pygame.font.SysFont('Sans',80)
+		text = font.render('OFFLINE MODE', True, (255, 0, 0))
+		screen.blit(text,(0,0))
+
+	pygame.display.flip()
 
 #A partir de uma interrupcao, le IO e carrega imagem na tela
 def new_msg():
-        print_echo("new CLP command")
-        x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
-        image_file=str(x)+".png"
+	x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
+	image_file=str(x)+".png"
 	display_image(image_file)
-        print_echo("end of command")
+	print_echo("new PLC command: " + image_file)
+	if flag_connected:
+		client.publish("RAIS/"+client_name+"/clp-message",image_file)
 
-def clp_dead():
-	print_echo("CLP dead")
-	image_file="plc_failure.jpg"
-	display_image(image_file)
+def clp_keep_alive():
+	status = GPIO.input("P8_17")
+	msg = "PLC keep-alive changed to " + str(status)
+	print_echo(msg)
+	if flag_connected:
+		if status:
+			client.publish("RAIS/"+client_name+"/clp-alive","true")
+			display_text(msg,(0,0,0),(0,255,0))
+		else:
+			client.publish("RAIS/"+client_name+"/clp-alive","false")
+			display_text(msg,(0,0,0),(255,0,0))
 
 #__SETUP_GPIO
 GPIO.setup("P8_11", GPIO.IN)
-GPIO.add_event_detect("P8_11", GPIO.RISING, callback=new_msg, bouncetime=100)
+GPIO.add_event_detect("P8_11", GPIO.RISING, bouncetime=100)
 GPIO.setup("P8_12", GPIO.IN) #BIT 0
 GPIO.setup("P8_14", GPIO.IN) #BIT 1
 GPIO.setup("P8_16", GPIO.IN) #BIT 2
 GPIO.setup("P8_18", GPIO.IN) #BIT 3
 GPIO.setup("P8_17", GPIO.IN) #CLP KEEP-ALIVE
-GPIO.add_event_detect("P8_17",GPIO.FALLING, callback=clp_dead, bouncetime=100)
+GPIO.add_event_detect("P8_17",GPIO.BOTH, bouncetime=100)
 
 print_echo("Starting RAIS")
-
 print_echo("Creating new MQTT instance: "+client_name+"\n")
 client = mqtt.Client(client_name) #create new instance
 client.on_message = on_message #attach function to callback
@@ -254,9 +269,12 @@ client.on_connect = on_connect
 client.on_unsubscribe = on_unsubscribe
 client.on_disconnect = on_disconnect
 
-print_echo("Connecting to MQTT broker: "+str(broker_address)+"\n")
-client.connect_async(broker_address) #connect to broker
-client.loop_start() #stop the loop
+print_echo("Connecting to MQTT broker: "+str(broker_address))
+try:
+	client.connect(broker_address) #connect to broker
+except:
+	print_echo("Connection refused")
+
 
 print_echo("Starting Pygame\n")	
 pygame.init()
@@ -270,54 +288,83 @@ for i in range(2):
 	time.sleep(4)
 	display_image("waiting.jpg")
 	time.sleep(1)
+	
+output, error = subprocess.Popen("ifconfig eth0",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+output = output.split(" ")
+if "inet" in output:
+	ip_address = output[output.index("inet")+1]
 image_file = "ready.jpg"
+print_echo("IP address: " + ip_address)
 
 if offline == False:
 	if browser:
 		os.system('/home/debian/Desktop/Project_display/launcher_browser.sh')
 		browser_launched = 1
-
 display_image(image_file)
-print_echo("Listening CLP")
 
+print_echo("Listening CLP - Keep-alive bit: " + str(GPIO.input("P8_17")))
+if flag_connected:
+	if GPIO.input("P8_17"):
+		client.publish("RAIS/"+client_name+"/clp-alive","true")
+	else:
+		client.publish("RAIS/"+client_name+"/clp-alive","false")
+
+delay_test = 5
+backup = pygame.display.get_surface().copy()
+		
 try:
 	#__PERMANENT_LOOP
+	t_browser = time.time()
+	t_ping = time.time()
+	t_test = time.time()
+	t_msg = time.time()
 	while True:
-		#client.loop()
-		output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-		if ("0% packet loss" in output)==offline:
-			offline = not offline
-			print_echo("Connection Status Changed: Offline = "+str(offline))			
-		if browser_launched and browser and (not offline):
-			backup = pygame.display.get_surface().copy()
-			pygame.display.quit()
-			time.sleep(delay_browser)
+		client.loop(timeout=0.2)
+		if GPIO.event_detected("P8_17"):
+			clp_keep_alive()
+			t_browser = time.time()
+			t_msg = t_browser
+		if GPIO.event_detected("P8_11"):
+			new_msg()
+			t_browser = time.time()
+			t_msg = t_browser
+		if time.time() - t_ping >= delay_ping:
+			t_ping = time.time()
+			output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+			if ("0% packet loss" in output)==offline:
+				offline = not offline
+				print_echo("Connection Status Changed: Offline = "+str(offline))
+			if flag_connected == 0:
+				print_echo("Connecting to MQTT broker: "+str(broker_address))
+				try:
+					client.reconnect()
+				except:
+					print_echo("Connection refused")			
+				
+		if time.time() - t_browser >= delay_browser+delay_msg:
+			t_browser = time.time()
+			t_msg = t_browser
+			if browser_launched and browser and (not offline):
+				if pygame.display.get_init() == True:
+					backup = pygame.display.get_surface().copy()
+					pygame.display.quit()
+		if time.time() - t_msg >= delay_browser:
+			t_msg = time.time()
 			if pygame.display.get_init() == False:
 				pygame.display.init()
 				pygame.mouse.set_visible(0)
 				screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 				screen.blit(backup,(0,0))
 				pygame.display.flip()
-			
-		#if flag_connected:
-			#print_echo("MQTT Connected")
-			#print_echo("Publishing MQTT message to topic: "+"RAIS/"+client_name+"/clp-alive - YES\n")
-			#client.publish("RAIS/"+client_name+"/clp-alive","YES")
-		if flag_connected == 0:
-			print_echo("Connecting to MQTT broker: "+str(broker_address))
-			client.loop_stop()
-			client.connect_async(broker_address) #connect to broker
-			client.loop_start()
-		time.sleep(delay_msg)
-		display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
-		time.sleep(delay_msg)
-		display_text("Oi\naaaaaaaaaaaa",(255,255,255),(0,0,255))
+		if time.time() - t_test >= delay_test:
+			t_test = time.time()
+			#display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
 
 
 except KeyboardInterrupt:
 	if flag_connected:
-		client.loop_stop()
 		client.disconnect()
 	os.system("pkill chromium")
 	os.system("pkill midori")
+	GPIO.cleanup()
 	print_echo("Ending Script")
