@@ -6,7 +6,7 @@ if ps aux | grep -q "[g]nome-keyring-daemon "; then
 	echo "gnome-keyring-daemon found" 
 else
 	echo "Starting gnome-keyring-daemon"
-	export $(gnome-keyring-daemon –-start)
+	export $(sudo gnome-keyring-daemon –-start)
 fi
 
 if ps aux | grep -q "[u]nclutter"; then 
@@ -17,3 +17,6 @@ else
 fi
 
 midori -e Fullscreen -e Navigationbar -a https://status.lnls.br >>/dev/null & 
+#firefox -url https://status.lnls.br/ -fullscreen &
+
+

@@ -28,7 +28,7 @@ font_color = (255,255,255)
 
 #Print with ECHO - to log when running as service
 def print_echo(msg):
-	os.system("echo " + str(msg))
+	subprocess.Popen("echo " + str(msg),shell=True).communicate()
 
 def hex_to_rgb(hex_color):
     hex_color = hex_color.lstrip('#')
@@ -66,7 +66,7 @@ config_file.close()
 #create function for message callback
 def on_message(client, userdata, message):
 	global font_color,background_color,browser,browser_launched
-	#print_echo("message received = " +str(message.payload) + "\ttopic = " + str(message.topic)+ "\tqos = " + str(message.qos))
+	print_echo("message received = " +str(message.payload.split("\n")) + "\ttopic = " + str(message.topic) + "\tqos = " + str(message.qos))
 	#print("message retain flag = "+str(message.retain)+"\n")
 	if str(message.topic) == "RAIS/"+client_name+"/msg" or str(message.topic) == "RAIS/global/msg":
 		display_text(str(message.payload),font_color,background_color)
@@ -77,14 +77,18 @@ def on_message(client, userdata, message):
 	elif str(message.topic) == "RAIS/"+client_name+"/browser" or str(message.topic) == "RAIS/global/browser":
 		if str(message.payload) == 'yes':
 			if browser_launched == 0:
-				os.system('/home/debian/Desktop/Project_display/launcher_browser.sh')
+				subprocess.Popen('/home/debian/Desktop/Project_display/launcher_browser.sh',shell=True).communicate()
+				#subprocess.Popen('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"',shell=True).communicate()
 				browser_launched = 1	
 			browser = 1
 		else:
 			if browser_launched:
-				os.system("pkill midori")
+				subprocess.Popen("pkill midori",shell=True).communicate()
+				subprocess.Popen("pkill chromium",shell=True).communicate()
 				browser_launched = 0	
 			browser = 0
+	elif str(message.topic) == "RAIS/"+client_name+"/img" or str(message.topic) == "RAIS/global/img":
+		display_image(str(message.payload))
 	elif str(message.topic) == "RAIS/"+client_name+"/img" or str(message.topic) == "RAIS/global/img":
 		display_image(str(message.payload))
 		
@@ -92,24 +96,26 @@ def on_message(client, userdata, message):
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
-	print("Connected flags"+str(flags)+"result code "+str(rc)+"client_id \n")
-	display_text("MQTT Connected",(0,0,0),(0,255,0))
 	global font_color,background_color,browser,flag_connected
+
+
+	print_echo("Connected flags: "+str(flags)+" result code: "+str(rc))
+	display_text("MQTT Connected",(0,0,0),(0,255,0))
 	flag_connected = 1
 	
-	print("Subscribing to topic: "+"RAIS/"+client_name+"/msg\n")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/msg")
 	client.subscribe("RAIS/"+client_name+"/msg")
-	print("Subscribing to topic: "+"RAIS/"+client_name+"/img\n")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/img")
 	client.subscribe("RAIS/"+client_name+"/img")
-	print("Subscribing to topic: "+"RAIS/"+client_name+"/browser\n")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/browser")
 	client.subscribe("RAIS/"+client_name+"/browser")
-	print("Subscribing to topic: "+"RAIS/"+client_name+"/clp-alive\n")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/clp-alive")
 	client.subscribe("RAIS/"+client_name+"/clp-alive")
-	print("Subscribing to topic: "+"RAIS/"+client_name+"/clp-message\n")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/clp-message")
 	client.subscribe("RAIS/"+client_name+"/clp-message")
-	print("Subscribing to topic: "+"RAIS/"+client_name+"/config/color\n")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/config/color")
 	client.subscribe("RAIS/"+client_name+"/config/color")
-	print("Subscribing to topic: "+"RAIS/"+client_name+"/config/bg\n")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/config/bg")
 	client.subscribe("RAIS/"+client_name+"/config/bg")
 
 	
@@ -117,19 +123,19 @@ def on_connect(client, userdata, flags, rc):
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
 	client.publish("RAIS/"+client_name+"/browser","yes" if browser == 1 else "no")
 	
-	print("Subscribing to topic: RAIS/global/msg\n")
+	print_echo("Subscribing to topic: RAIS/global/msg")
 	client.subscribe("RAIS/global/msg")
-	print("Subscribing to topic: RAIS/global/img\n")
+	print_echo("Subscribing to topic: RAIS/global/img")
 	client.subscribe("RAIS/global/img")
-	print("Subscribing to topic: RAIS/global/browser\n")
+	print_echo("Subscribing to topic: RAIS/global/browser")
 	client.subscribe("RAIS/global/browser")
-	print("Subscribing to topic: RAIS/global/firmware-update\n")
+	print_echo("Subscribing to topic: RAIS/global/firmware-update")
 	client.subscribe("RAIS/global/firmware-update")
-	print("Subscribing to topic: RAIS/global/img-update\n")
+	print_echo("Subscribing to topic: RAIS/global/img-update")
 	client.subscribe("RAIS/global/img-update")
-	print("Subscribing to topic: RAIS/global/config/color\n")
+	print_echo("Subscribing to topic: RAIS/global/config/color")
 	client.subscribe("RAIS/global/config/color")
-	print("Subscribing to topic: RAIS/global/config/bg\n")
+	print_echo("Subscribing to topic: RAIS/global/config/bg")
 	client.subscribe("RAIS/global/config/bg")
 	
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
@@ -137,19 +143,23 @@ def on_connect(client, userdata, flags, rc):
 
 #create function for log callback
 def on_log(client, userdata, level, buf):
-	print("log: "+str(buf)+"\n")
-
+	#print("log: "+str(buf)+"\n")
+	return
+	
 #create function for publish callback
 def on_publish(client,userdata,mid):             					
-	print("data published: "+str(mid)+"\n")
+	#print("data published: "+str(mid)+"\n")
+	return
 
 #create function for subscribe callback
 def on_subscribe(client, userdata, mid, granted_qos):             	
-	print("subscribed: "+str(mid)+"\n")
+	#print("subscribed: "+str(mid)+"\n")
+	return
 
 #create function for unsubscribe callback
 def	on_unsubscribe(client, userdata, mid):
-	print("unsubscribed: "+str(mid)+"\n")
+	#print("unsubscribed: "+str(mid)+"\n")
+	return
 	
 #create function for disconnect callback
 def	on_disconnect(client, userdata, rc):
@@ -232,14 +242,14 @@ def new_msg():
 	x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
 	image_file=str(x)+".png"
 	display_image(image_file)
-	print_echo("new PLC command: " + image_file)
+	print_echo("Event P8_11 - new PLC command: " + image_file)
 	if flag_connected:
 		client.publish("RAIS/"+client_name+"/clp-message",image_file)
 
 def clp_keep_alive():
 	status = GPIO.input("P8_17")
-	msg = "PLC keep-alive changed to " + str(status)
-	print_echo(msg)
+	msg = "PLC keep-alive bit: " + str(status)
+	print_echo("Event P8_17 - "+msg)
 	if flag_connected:
 		if status:
 			client.publish("RAIS/"+client_name+"/clp-alive","true")
@@ -250,14 +260,14 @@ def clp_keep_alive():
 
 #__SETUP_GPIO
 GPIO.setup("P8_11", GPIO.IN)
-GPIO.add_event_detect("P8_11", GPIO.RISING, bouncetime=100)
 GPIO.setup("P8_12", GPIO.IN) #BIT 0
 GPIO.setup("P8_14", GPIO.IN) #BIT 1
 GPIO.setup("P8_16", GPIO.IN) #BIT 2
 GPIO.setup("P8_18", GPIO.IN) #BIT 3
 GPIO.setup("P8_17", GPIO.IN) #CLP KEEP-ALIVE
-GPIO.add_event_detect("P8_17",GPIO.BOTH, bouncetime=100)
-
+GPIO.add_event_detect("P8_11", GPIO.RISING, bouncetime=200)
+GPIO.add_event_detect("P8_17",GPIO.BOTH, bouncetime=200)
+	
 print_echo("Starting RAIS")
 print_echo("Creating new MQTT instance: "+client_name+"\n")
 client = mqtt.Client(client_name) #create new instance
@@ -274,8 +284,7 @@ try:
 	client.connect(broker_address) #connect to broker
 except:
 	print_echo("Connection refused")
-
-
+	
 print_echo("Starting Pygame\n")	
 pygame.init()
 
@@ -298,11 +307,13 @@ print_echo("IP address: " + ip_address)
 
 if offline == False:
 	if browser:
-		os.system('/home/debian/Desktop/Project_display/launcher_browser.sh')
+		subprocess.Popen('/home/debian/Desktop/Project_display/launcher_browser.sh',shell=True).communicate()
+		#subprocess.Popen('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"',shell=True).communicate()
 		browser_launched = 1
 display_image(image_file)
 
 print_echo("Listening CLP - Keep-alive bit: " + str(GPIO.input("P8_17")))
+
 if flag_connected:
 	if GPIO.input("P8_17"):
 		client.publish("RAIS/"+client_name+"/clp-alive","true")
@@ -318,8 +329,10 @@ try:
 	t_ping = time.time()
 	t_test = time.time()
 	t_msg = time.time()
+	
 	while True:
 		client.loop(timeout=0.2)
+		#print_echo("GPIO P8_17: "+str(GPIO.input("P8_17")))
 		if GPIO.event_detected("P8_17"):
 			clp_keep_alive()
 			t_browser = time.time()
@@ -328,18 +341,23 @@ try:
 			new_msg()
 			t_browser = time.time()
 			t_msg = t_browser
+		
 		if time.time() - t_ping >= delay_ping:
 			t_ping = time.time()
+			
 			output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+			
 			if ("0% packet loss" in output)==offline:
 				offline = not offline
 				print_echo("Connection Status Changed: Offline = "+str(offline))
+			
 			if flag_connected == 0:
-				print_echo("Connecting to MQTT broker: "+str(broker_address))
+				#print_echo("Connecting to MQTT broker: "+str(broker_address))
 				try:
 					client.reconnect()
 				except:
-					print_echo("Connection refused")			
+					#print_echo("Connection refused")
+					pass
 				
 		if time.time() - t_browser >= delay_browser+delay_msg:
 			t_browser = time.time()
@@ -359,12 +377,12 @@ try:
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
 			#display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
-
+		
 
 except KeyboardInterrupt:
 	if flag_connected:
 		client.disconnect()
-	os.system("pkill chromium")
-	os.system("pkill midori")
+	subprocess.Popen("pkill chromium",shell=True).communicate()
+	subprocess.Popen("pkill midori",shell=True).communicate()
 	GPIO.cleanup()
 	print_echo("Ending Script")

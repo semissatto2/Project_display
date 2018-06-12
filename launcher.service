@@ -8,7 +8,7 @@ User=debian
 ExecStart=/home/debian/Desktop/Project_display/launcher_rais.sh
 
 [Install]
-#WantedBy=default.target
+WantedBy=default.target
 
 #Service de autoboot
 #Este arquivo deve ser colocado em /lib/systemd/launcher.service
