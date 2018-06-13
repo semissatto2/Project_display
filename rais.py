@@ -61,6 +61,10 @@ for line in config_file:
 		delay_msg = int(line[-1].strip())
 	elif line[0] == "delay_ping":
 		delay_ping = int(line[-1].strip())
+	elif line[0] == "folder_username":	
+		folder_username = line[-1].strip()
+	elif line[0] == "folder_password":	
+		folder_password = line[-1].strip()
 config_file.close()
 
 #create function for message callback
@@ -91,13 +95,12 @@ def on_message(client, userdata, message):
 		display_image(str(message.payload))
 	elif str(message.topic) == "RAIS/global/img-update":
 		display_text("Loading Images...",(0,0,0),(0,0,255))
-		subprocess.Popen('/home/debian/Desktop/Project_display/update_images.sh',shell=True).communicate()
+		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_images.sh",str(folder_username),str(folder_password)]).communicate()
 		display_text("New images have been loaded",(0,0,0),(0,255,0))
 	elif str(message.topic) == "RAIS/global/firmware-update":
 		display_text("Updating firmware...",(0,0,0),(255,0,0))
-		subprocess.Popen('/home/debian/Desktop/Project_display/update_fw.sh',shell=True).communicate()
+		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_fw.sh"]).communicate()
 		
-	
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
@@ -310,6 +313,7 @@ image_file = "ready.jpg"
 print_echo("IP address: " + ip_address)
 
 if offline == False:
+	subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_images.sh",str(folder_username),str(folder_password)]).communicate()
 	if browser:
 		subprocess.Popen('/home/debian/Desktop/Project_display/launcher_browser.sh',shell=True).communicate()
 		#subprocess.Popen('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"',shell=True).communicate()

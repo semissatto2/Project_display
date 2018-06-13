@@ -35,10 +35,12 @@ sudo apt-get install cifs-utils -y
 sudo apt-get -y dist-upgrade
 sudo apt-get -y autoremove
 sudo apt-get clean
-./
 
 echo "${green}Debian atualizado. Todos pacotes foram obtidos com sucesso...${reset}"
 sleep 5
+
+echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_fw.sh' | sudo EDITOR='tee -a' visudo
+echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_images.sh' | sudo EDITOR='tee -a' visudo
 
 #echo "${green}Clonando Repositório...${reset}"
 #cd /home/debian/Desktop/
