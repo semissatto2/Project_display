@@ -5,10 +5,11 @@ After=multi-user.target
 [Service]
 Type=simple
 User=debian
+EnvironmentFile=/usr/bin/env
 ExecStart=/home/debian/Desktop/Project_display/launcher_rais.sh
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target
 
 #Service de autoboot
 #Este arquivo deve ser colocado em /lib/systemd/launcher.service

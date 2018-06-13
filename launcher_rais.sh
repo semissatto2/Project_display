@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-
+#!/bin/bash
 export XAUTHORITY=~/.Xauthority
 export DISPLAY=:0.0
 

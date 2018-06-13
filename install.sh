@@ -64,6 +64,7 @@ echo "${green}Arquivos copiados...${reset}"
 sleep 3
 
 echo "${green}Incorporando scripts de automação ao sistema...${reset}"
+sudo rm /etc/systemd/system/launcher.service
 sudo ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
 sudo systemctl daemon-reload
 sudo systemctl enable /lib/systemd/launcher.service

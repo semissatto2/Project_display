@@ -89,15 +89,19 @@ def on_message(client, userdata, message):
 			browser = 0
 	elif str(message.topic) == "RAIS/"+client_name+"/img" or str(message.topic) == "RAIS/global/img":
 		display_image(str(message.payload))
-	elif str(message.topic) == "RAIS/"+client_name+"/img" or str(message.topic) == "RAIS/global/img":
-		display_image(str(message.payload))
+	elif str(message.topic) == "RAIS/global/img-update":
+		display_text("Loading Images...",(0,0,0),(0,0,255))
+		subprocess.Popen('/home/debian/Desktop/Project_display/update_images.sh',shell=True).communicate()
+		display_text("New images have been loaded",(0,0,0),(0,255,0))
+	elif str(message.topic) == "RAIS/global/firmware-update":
+		display_text("Updating firmware...",(0,0,0),(255,0,0))
+		subprocess.Popen('/home/debian/Desktop/Project_display/update_fw.sh',shell=True).communicate()
 		
 	
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
 	global font_color,background_color,browser,flag_connected
-
 
 	print_echo("Connected flags: "+str(flags)+" result code: "+str(rc))
 	display_text("MQTT Connected",(0,0,0),(0,255,0))
