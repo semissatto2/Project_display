@@ -13,10 +13,6 @@ global font_color,background_color,browser,browser_launched,offline,flag_connect
 flag_connected = 0
 offline = True
 browser_launched = 0
-delay_browser = 10
-delay_msg = 4
-delay_ping = 2
-ip_address = "none"
 
 #DEFAULT CONFIG VARIABLES
 hostname = "www.google.com.br" 		#host to ping in order to check connectivity
@@ -25,6 +21,13 @@ browser = 0
 broker_address = "10.2.105.126"
 background_color = (0,0,0)
 font_color = (255,255,255)
+delay_browser = 10
+delay_msg = 4
+delay_ping = 2
+ip_address = "none"
+delay_saver = 5
+persist_saver = 5
+beamline = "MANACA"
 
 #Print with ECHO - to log when running as service
 def print_echo(msg):
@@ -55,7 +58,7 @@ for line in config_file:
 		hostname = line[-1].strip()
 	elif line[0] == "browser":
 		if "yes" in line[-1]:
-			browser = 1  
+			browser = 1
 	elif line[0] == "background_color":
 		background_color = hex_to_rgb(line[-1].strip())
 	elif line[0] == "font_color":
@@ -66,11 +69,19 @@ for line in config_file:
 		delay_msg = int(line[-1].strip())
 	elif line[0] == "delay_ping":
 		delay_ping = int(line[-1].strip())
-	elif line[0] == "folder_username":	
+	elif line[0] == "folder_username":
 		folder_username = line[-1].strip()
-	elif line[0] == "folder_password":	
+	elif line[0] == "folder_password":
 		folder_password = line[-1].strip()
+	elif line[0] == "beamline":
+		beamline = line[-1].strip()
+	elif line[0] == "delay_saver_min":
+		delay_saver = int(line[-1].strip())
+	elif line[0] == "persist_saver_sec":
+		persist_saver = int(line[-1].strip())
 config_file.close()
+
+client_name = beamline + "/" + client_name
 
 #create function for message callback
 def on_message(client, userdata, message):
@@ -88,13 +99,13 @@ def on_message(client, userdata, message):
 			if browser_launched == 0:
 				subprocess.Popen('/home/debian/Desktop/Project_display/launcher_browser.sh',shell=True).communicate()
 				#subprocess.Popen('su debian -c "/usr/bin/chromium --kiosk --disable-infobars --start-fullscreen --hide-scrollbars https://status.lnls.br &"',shell=True).communicate()
-				browser_launched = 1	
+				browser_launched = 1
 			browser = 1
 		else:
 			if browser_launched:
 				subprocess.Popen("pkill midori",shell=True).communicate()
 				subprocess.Popen("pkill chromium",shell=True).communicate()
-				browser_launched = 0	
+				browser_launched = 0
 			browser = 0
 	elif str(message.topic) == "RAIS/"+client_name+"/img" or str(message.topic) == "RAIS/global/img":
 		display_image(str(message.payload))
@@ -105,7 +116,7 @@ def on_message(client, userdata, message):
 	elif str(message.topic) == "RAIS/global/firmware-update":
 		display_text("Updating firmware...",(0,0,0),(255,0,0))
 		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_fw.sh"]).communicate()
-		
+
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
@@ -114,7 +125,7 @@ def on_connect(client, userdata, flags, rc):
 	print_echo("Connected flags: "+str(flags)+" result code: "+str(rc))
 	#display_text("MQTT Connected",(0,0,0),(0,255,0))
 	flag_connected = 1
-	
+
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/msg")
 	client.subscribe("RAIS/"+client_name+"/msg")
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/img")
@@ -130,11 +141,11 @@ def on_connect(client, userdata, flags, rc):
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/config/bg")
 	client.subscribe("RAIS/"+client_name+"/config/bg")
 
-	
+
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
 	client.publish("RAIS/"+client_name+"/browser","yes" if browser == 1 else "no")
-	
+
 	print_echo("Subscribing to topic: RAIS/global/msg")
 	client.subscribe("RAIS/global/msg")
 	print_echo("Subscribing to topic: RAIS/global/img")
@@ -149,7 +160,7 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/global/config/color")
 	print_echo("Subscribing to topic: RAIS/global/config/bg")
 	client.subscribe("RAIS/global/config/bg")
-	
+
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
 	client.publish("RAIS/"+client_name+"/online",ip_address)
 
@@ -157,14 +168,14 @@ def on_connect(client, userdata, flags, rc):
 def on_log(client, userdata, level, buf):
 	#print("log: "+str(buf)+"\n")
 	return
-	
+
 #create function for publish callback
-def on_publish(client,userdata,mid):             					
+def on_publish(client,userdata,mid):
 	#print("data published: "+str(mid)+"\n")
 	return
 
 #create function for subscribe callback
-def on_subscribe(client, userdata, mid, granted_qos):             	
+def on_subscribe(client, userdata, mid, granted_qos):
 	#print("subscribed: "+str(mid)+"\n")
 	return
 
@@ -172,7 +183,7 @@ def on_subscribe(client, userdata, mid, granted_qos):
 def	on_unsubscribe(client, userdata, mid):
 	#print("unsubscribed: "+str(mid)+"\n")
 	return
-	
+
 #create function for disconnect callback
 def	on_disconnect(client, userdata, rc):
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online : false")
@@ -190,7 +201,7 @@ def display_text(text_msg,text_color,background):
 	pygame.mouse.set_visible(0)
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 	screen.fill(background)
-	
+
 	text_msg = text_msg.split("\n")
 	if len(text_msg) > 0:
 		if len(text_msg)>2:
@@ -214,13 +225,13 @@ def display_text(text_msg,text_color,background):
 		for i in range(len(text_msg)):
 			msg.append(font.render(lines[i],True,text_color))
 			screen.blit(msg[i],((screen.get_width()-msg[i].get_width())/2,(screen.get_height()*(1.0/len(text_msg)+i)-msg[i].get_height())/2 ))
-		
+
 	if offline == True:
 		font = pygame.font.SysFont('Sans',80)
 		text = font.render('OFFLINE MODE', True, (255, 0, 0))
 		screen.blit(text,(0,0))
 	pygame.display.flip()
-	
+
 #load image from file and display
 def display_image(file_name):
 	if pygame.display.get_init() == False:
@@ -235,7 +246,7 @@ def display_image(file_name):
 	elif os.path.isfile(directory_interno):
 		image = pygame.image.load(directory_interno)
 		#print_echo(directory_interno)
-	else:	
+	else:
 		display_text("ERROR: File Not Found",(0,0,0),(255,0,0)) #Erro caso imagem nao seja encontrada
 		return
 	screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
@@ -279,7 +290,7 @@ GPIO.setup("P8_18", GPIO.IN) #BIT 3
 GPIO.setup("P8_17", GPIO.IN) #CLP KEEP-ALIVE
 GPIO.add_event_detect("P8_11", GPIO.RISING, bouncetime=200)
 GPIO.add_event_detect("P8_17",GPIO.BOTH, bouncetime=200)
-	
+
 print_echo("Starting RAIS")
 print_echo("Creating new MQTT instance: "+client_name+"\n")
 client = mqtt.Client(client_name) #create new instance
@@ -296,8 +307,8 @@ try:
 	client.connect(broker_address) #connect to broker
 except:
 	print_echo("Connection refused")
-	
-print_echo("Starting Pygame\n")	
+
+print_echo("Starting Pygame\n")
 pygame.init()
 
 for i in range(2):
@@ -309,7 +320,7 @@ for i in range(2):
 	time.sleep(4)
 	display_image("waiting.jpg")
 	time.sleep(1)
-	
+
 output, error = subprocess.Popen("ifconfig eth0",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 output = output.split(" ")
 if "inet" in output:
@@ -335,14 +346,14 @@ if flag_connected:
 
 delay_test = 5
 backup = pygame.display.get_surface().copy()
-		
+screen_saver = 0
 try:
 	#__PERMANENT_LOOP
 	t_browser = time.time()
 	t_ping = time.time()
 	t_test = time.time()
 	t_msg = time.time()
-	
+	t_screen_saver = time.time()
 	while True:
 		client.loop(timeout=0.2)
 		#print_echo("GPIO P8_17: "+str(GPIO.input("P8_17")))
@@ -350,20 +361,21 @@ try:
 			clp_keep_alive()
 			t_browser = time.time()
 			t_msg = t_browser
+			t_screen_saver = t_browser
 		if GPIO.event_detected("P8_11"):
 			new_msg()
 			t_browser = time.time()
 			t_msg = t_browser
-		
+			t_screen_saver = t_browser
 		if time.time() - t_ping >= delay_ping:
 			t_ping = time.time()
-			
+
 			output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-			
+
 			if ("0% packet loss" in output)==offline:
 				offline = not offline
 				print_echo("Connection Status Changed: Offline = "+str(offline))
-			
+
 			if flag_connected == 0:
 				#print_echo("Connecting to MQTT broker: "+str(broker_address))
 				try:
@@ -371,11 +383,12 @@ try:
 				except:
 					#print_echo("Connection refused")
 					pass
-				
+
 		if time.time() - t_browser >= delay_browser+delay_msg:
 			t_browser = time.time()
 			t_msg = t_browser
 			if browser_launched and browser and (not offline):
+				t_screen_saver = t_browser
 				if pygame.display.get_init() == True:
 					backup = pygame.display.get_surface().copy()
 					pygame.display.quit()
@@ -389,8 +402,21 @@ try:
 				pygame.display.flip()
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
+		if screen_saver == 0 and time.time() - t_screen_saver >= delay_saver*60:
+			if pygame.display.get_init() == True:
+				backup = pygame.display.get_surface().copy()
+			display_text(beamline,(255,255,255),(0,0,0))
+			screen_saver = 1
+		if screen_saver == 1 and time.time() - t_screen_saver >= (delay_saver*60+persist_saver):
+			if pygame.display.get_init() == False:
+				pygame.display.init()
+			pygame.mouse.set_visible(0)
+			screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+			screen.blit(backup,(0,0))
+			pygame.display.flip()
+			t_screen_saver = time.time()
+			screen_saver=0
 			#display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
-		
 
 except KeyboardInterrupt:
 	if flag_connected:
