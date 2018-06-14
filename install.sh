@@ -14,8 +14,15 @@ echo "${red}AVISO: A INTERRUPÇÃO DESTE SCRIPT PODE DANIFICAR O SISTEMA OPERACI
 echo "${red}Script feito por ${green}mauricio.donatti@lnls.br${reset}"
 sleep 2
 
-sudo apt-get update -y
-sudo apt-get upgrade -y
+sudo -i
+
+apt-get update -y
+apt-get upgrade -y
+sudo apt-get -y dist-upgrade
+
+apt-get install locales
+dpkg-reconfigure locales
+
 
 sudo dpkg-reconfigure tzdata
 
@@ -32,7 +39,6 @@ sudo pip install paho-mqtt
 sudo apt-get install xdotool -y
 sudo apt-get install unclutter -y
 sudo apt-get install cifs-utils -y
-sudo apt-get -y dist-upgrade
 sudo apt-get -y autoremove
 sudo apt-get clean
 
@@ -42,40 +48,31 @@ sleep 5
 echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_fw.sh' | sudo EDITOR='tee -a' visudo
 echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_images.sh' | sudo EDITOR='tee -a' visudo
 
-#echo "${green}Clonando Repositório...${reset}"
-#cd /home/debian/Desktop/
-#sudo rm -r Project_display/
-#git clone https://github.com/semissatto2/Project_display.git
-#echo "${green}Repositório clonado com sucesso...${reset}"
-#sleep 5
+
+echo "${green}Clonando Repositório...${reset}"
+cd /home/debian/Desktop/
+sudo rm -r Project_display/
+git clone https://github.com/semissatto2/Project_display.git
+echo "${green}Repositório clonado com sucesso...${reset}"
+sleep 5
 
 echo "${green}Concedendo permissões às rotinas de automação...${reset}"
 cd /home/debian/Desktop/Project_display/
-sudo chmod +x launcher_browser.sh
-sudo chmod +x launcher_rais.sh
-sudo chmod +x mount_shared.sh
+chmod +x launcher_browser.sh
+chmod +x update_images.sh
+chmod +x update_fw.sh
 echo "${green}Permissões concedidas...${reset}"
 sleep 5
 
-echo "${green}Copiando arquivos...${reset}"
+echo "${green}Copiando arquivos e configurando startup...${reset}"
 cd /home/debian/Desktop/Project_display/
-sudo cp launcher.service /lib/systemd/launcher.service
-sudo mkdir /home/debian/Downloads/
-sudo cp /home/debian/Desktop/Project_display/version/version.txt /home/debian/Downloads/version.txt
+cp launcher.service /lib/systemd/launcher.service
+rm /etc/systemd/system/launcher.service
+ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
+systemctl daemon-reload
+systemctl enable /lib/systemd/launcher.service
 echo "${green}Arquivos copiados...${reset}"
 sleep 3
 
-echo "${green}Incorporando scripts de automação ao sistema...${reset}"
-sudo rm /etc/systemd/system/launcher.service
-sudo ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
-sudo systemctl daemon-reload
-sudo systemctl enable /lib/systemd/launcher.service
-echo "${green}Scripts incorporados ao sistema...${reset}"
-sleep 3
-
-
-
-echo "${green}Inicializando os scripts de automação...${reset}"
-#sudo systemctl start launcher.service
 echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
-#sudo reboot
+sudo reboot

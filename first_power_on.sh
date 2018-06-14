@@ -1,11 +1,15 @@
 #!/bin/sh
 
+sudo -i
+
 cd /opt/scripts
-sudo git pull
+git pull
 
 cd /opt/scripts/tools
-sudo ./update_kernel.sh –-lts-4_14
+git pull
+./update_kernel.sh –-lts-4_14
 
 cd /opt/scripts/tools/developers
-sudo ./update_bootloader.sh
-sudo reboot
+git pull
+./update_bootloader.sh
+reboot
