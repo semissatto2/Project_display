@@ -107,7 +107,7 @@ def on_connect(client, userdata, flags, rc):
 	global font_color,background_color,browser,flag_connected
 
 	print_echo("Connected flags: "+str(flags)+" result code: "+str(rc))
-	display_text("MQTT Connected",(0,0,0),(0,255,0))
+	#display_text("MQTT Connected",(0,0,0),(0,255,0))
 	flag_connected = 1
 	
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/msg")
@@ -174,7 +174,7 @@ def	on_disconnect(client, userdata, rc):
 	client.publish("RAIS/"+client_name+"/online","false")
 
 	print_echo("MQTT disconnected: "+str(rc)+"\n")
-	display_text("MQTT Disconnected",(0,0,0),(255,0,0))
+	#display_text("MQTT Disconnected",(0,0,0),(255,0,0))
 	global flag_connected
 	flag_connected = 0
 
