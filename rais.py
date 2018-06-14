@@ -22,7 +22,7 @@ ip_address = "none"
 hostname = "www.google.com.br" 		#host to ping in order to check connectivity
 client_name = "BBB_default_"+str(random.randint(0,100))
 browser = 0
-broker_address = "10.2.105.113"
+broker_address = "10.2.105.126"
 background_color = (0,0,0)
 font_color = (255,255,255)
 
@@ -39,7 +39,12 @@ def rgb_to_hex(rgb_tuple):
 	return '%02x%02x%02x' %rgb_tuple
 
 #READING CONFIG FILE
-config_file = open('/home/debian/Desktop/Project_display/config','r')
+
+local_file = '/home/debian/Desktop/config'
+if os.path.isfile(local_file):
+	config_file = open(local_file,'r')
+else:
+	config_file = open('/home/debian/Desktop/Project_display/config_default','r')
 for line in config_file:
 	line = line.split(" ")
 	if line[0] == "client_name":

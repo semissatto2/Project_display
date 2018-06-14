@@ -1,7 +1,7 @@
 RAIS CONFIGURATION FILE
 
-client_name                BBB1
-broker_address             10.2.105.113
+client_name                BBB2
+broker_address             10.2.105.126
 ping_host                  www.google.com.br
 shared_folder 		       //stnls02.lnls.br/CommonSystems_Sirius/BEAGLETemp/
 folder_username 	       userxrd

@@ -14,8 +14,6 @@ echo "${red}AVISO: A INTERRUPÇÃO DESTE SCRIPT PODE DANIFICAR O SISTEMA OPERACI
 echo "${red}Script feito por ${green}mauricio.donatti@lnls.br${reset}"
 sleep 2
 
-sudo -i
-
 apt-get update -y
 apt-get upgrade -y
 sudo apt-get -y dist-upgrade
@@ -23,13 +21,7 @@ sudo apt-get -y dist-upgrade
 apt-get install locales
 dpkg-reconfigure locales
 
-
 sudo dpkg-reconfigure tzdata
-
-#Aviso na tela
-#sudo chmod 777 /home/debian/Desktop/Project_display/OLD_scripts/updating_display.py
-#sudo python /home/debian/Desktop/Project_display/OLD_scripts/updating_display.py &
-
 
 echo "${green}Atualizando Debian e obtendo pacotes Python pip, Adafruit, Pygame, Xdotool, Unclutter, Samba...${reset}"
 sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus midori python-pygame -y
@@ -43,18 +35,21 @@ sudo apt-get -y autoremove
 sudo apt-get clean
 
 echo "${green}Debian atualizado. Todos pacotes foram obtidos com sucesso...${reset}"
-sleep 5
+sleep 3
 
 echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_fw.sh' | sudo EDITOR='tee -a' visudo
 echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_images.sh' | sudo EDITOR='tee -a' visudo
 
 
-echo "${green}Clonando Repositório...${reset}"
-cd /home/debian/Desktop/
-sudo rm -r Project_display/
-git clone https://github.com/semissatto2/Project_display.git
-echo "${green}Repositório clonado com sucesso...${reset}"
-sleep 5
+echo "${green}Atualizando Repositório...${reset}"
+cd /home/debian/Desktop/Project_display
+git pull
+if [ ! -f /home/debian/Desktop/config ]; then
+    echo "Local Config File Not Found! Copying original file..."
+	cp /home/debian/Desktop/Project_display/config_default /home/debian/Desktop/config
+fi
+echo "${green}Repositório atualizado com sucesso...${reset}"
+sleep 3
 
 echo "${green}Concedendo permissões às rotinas de automação...${reset}"
 cd /home/debian/Desktop/Project_display/
@@ -67,12 +62,14 @@ sleep 5
 echo "${green}Copiando arquivos e configurando startup...${reset}"
 cd /home/debian/Desktop/Project_display/
 cp launcher.service /lib/systemd/launcher.service
-rm /etc/systemd/system/launcher.service
+if [ -f /etc/systemd/system/launcher.service ]; then
+	rm /etc/systemd/system/launcher.service
+fi
 ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
 systemctl daemon-reload
 systemctl enable /lib/systemd/launcher.service
 echo "${green}Arquivos copiados...${reset}"
-sleep 3
+sleep 2
 
 echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
 sudo reboot

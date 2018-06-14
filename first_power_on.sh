@@ -1,7 +1,5 @@
 #!/bin/sh
 
-sudo -i
-
 cd /opt/scripts
 git pull
 
