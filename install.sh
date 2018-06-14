@@ -65,6 +65,14 @@ cp launcher.service /lib/systemd/launcher.service
 if [ -f /etc/systemd/system/launcher.service ]; then
 	rm /etc/systemd/system/launcher.service
 fi
+
+if [ $(cat ~/.xsessionrc | grep -c gnome-keyring-daemon) > 0 ]; then
+	echo 'gnome-keyring-daemon already starting at boot'
+else
+	echo 'Adding gnome-keyring-daemon to startup'
+	echo 'export `gnome-keyring-daemon –start`' >> ~/.xsessionrc
+fi
+
 ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
 systemctl daemon-reload
 systemctl enable /lib/systemd/launcher.service
