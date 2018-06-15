@@ -405,10 +405,10 @@ try:
 				pygame.mouse.set_visible(0)
 				screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 				screen.blit(backup,(0,0))
-				if offline == True:
-					font = pygame.font.SysFont('Sans',80)
-					text = font.render('OFFLINE MODE', True, (40,40,40))
-					screen.blit(text,(0,0))
+				#if offline == True:
+				#	font = pygame.font.SysFont('Sans',80)
+				#	text = font.render('OFFLINE MODE', True, (40,40,40))
+				#	screen.blit(text,(0,0))
 				pygame.display.flip()
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
@@ -423,10 +423,10 @@ try:
 			pygame.mouse.set_visible(0)
 			screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 			screen.blit(backup,(0,0))
-			if offline == True:
-				font = pygame.font.SysFont('Sans',80)
-				text = font.render('OFFLINE MODE', True, (40,40,40))
-				screen.blit(text,(0,0))
+			#if offline == True:
+			#	font = pygame.font.SysFont('Sans',80)
+			#	text = font.render('OFFLINE MODE', True, (40,40,40))
+			#	screen.blit(text,(0,0))
 			pygame.display.flip()
 			t_screen_saver = time.time()
 			screen_saver=0
