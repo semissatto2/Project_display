@@ -41,14 +41,16 @@ echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_
 echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_images.sh' | sudo EDITOR='tee -a' visudo
 
 
-echo "${green}Atualizando Repositório...${reset}"
-cd /home/debian/Desktop/Project_display
-git pull
+echo "${green}Clonando Repositório...${reset}"
+cd /home/debian/Desktop/
+sudo rm -r Project_display/
+git clone https://github.com/semissatto2/Project_display.git
+echo "${green}Repositório clonado com sucesso...${reset}"
+
 if [ ! -f /home/debian/Desktop/config ]; then
     echo "Local Config File Not Found! Copying original file..."
 	cp /home/debian/Desktop/Project_display/config_default /home/debian/Desktop/config
 fi
-echo "${green}Repositório atualizado com sucesso...${reset}"
 sleep 3
 
 echo "${green}Concedendo permissões às rotinas de automação...${reset}"

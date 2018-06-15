@@ -4,8 +4,9 @@ echo 'UPDATING FIRMWARE'
 echo "WARNING: THE BEAGLEBONE WILL AUTO REBOOT AFTER UPDATE"
 
 echo "Cloning repository"
-cd /home/debian/Desktop/Project_display/
-git pull
+cd /home/debian/Desktop/
+sudo rm -r Project_display/
+git clone https://github.com/semissatto2/Project_display.git
 echo "Repository cloned succesfully..."
 
 echo "Giving permissions"
