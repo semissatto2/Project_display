@@ -86,6 +86,7 @@ client_name = beamline + "/" + client_name
 #create function for message callback
 def on_message(client, userdata, message):
 	global font_color,background_color,browser,browser_launched
+	client.publish("RAIS/"+client_name+"/command",str(message.topic)+": "+str(message.payload),qos=2,retain=True)
 	print_echo("message received = " +str(message.payload.split("\n")) + "\ttopic = " + str(message.topic) + "\tqos = " + str(message.qos))
 	#print("message retain flag = "+str(message.retain)+"\n")
 	if str(message.topic) == "RAIS/"+client_name+"/msg" or str(message.topic) == "RAIS/global/msg":
@@ -145,7 +146,6 @@ def on_connect(client, userdata, flags, rc):
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/online")
 	client.subscribe("RAIS/"+client_name+"/online")
 
-
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
 	client.publish("RAIS/"+client_name+"/browser","yes" if browser == 1 else "no")
@@ -170,9 +170,9 @@ def on_connect(client, userdata, flags, rc):
 	client.will_set("RAIS/"+client_name+"/online", payload="false", qos=2, retain=True)
 
 	if GPIO.input("P8_17"):
-		client.publish("RAIS/"+client_name+"/clp-alive","true")
+		client.publish("RAIS/"+client_name+"/clp-alive","true",qos=2,retain=True)
 	else:
-		client.publish("RAIS/"+client_name+"/clp-alive","false")
+		client.publish("RAIS/"+client_name+"/clp-alive","false",qos=2,retain=True)
 
 #create function for log callback
 def on_log(client, userdata, level, buf):
@@ -277,7 +277,7 @@ def new_msg():
 	display_image(image_file)
 	print_echo("Event P8_11 - new PLC command: " + image_file)
 	if flag_connected:
-		client.publish("RAIS/"+client_name+"/clp-message",image_file)
+		client.publish("RAIS/"+client_name+"/clp-message",image_file,qos=2,retain=True)
 
 def clp_keep_alive():
 	status = GPIO.input("P8_17")
@@ -285,10 +285,10 @@ def clp_keep_alive():
 	print_echo("Event P8_17 - "+msg)
 	if flag_connected:
 		if status:
-			client.publish("RAIS/"+client_name+"/clp-alive","true")
+			client.publish("RAIS/"+client_name+"/clp-alive","true",qos=2,retain=True)
 			display_text(msg,(0,0,0),(0,255,0))
 		else:
-			client.publish("RAIS/"+client_name+"/clp-alive","false")
+			client.publish("RAIS/"+client_name+"/clp-alive","false",qos=2,retain=True)
 			display_text(msg,(0,0,0),(255,0,0))
 
 #__SETUP_GPIO
