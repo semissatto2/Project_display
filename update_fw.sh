@@ -29,4 +29,6 @@ echo "Done..."
 
 echo "Restarting service..."
 systemctl stop launcher.service
+sleep 5
+echo "Starting service..."
 systemctl start launcher.service
