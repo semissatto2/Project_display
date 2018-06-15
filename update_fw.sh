@@ -9,6 +9,7 @@ sudo rm -r Project_display/
 git clone https://github.com/semissatto2/Project_display.git
 echo "Repository cloned succesfully..."
 
+cd /home/debian/Desktop/Project_display
 echo "Giving permissions"
 chmod +x launcher_browser.sh
 chmod +x launcher_rais.sh
