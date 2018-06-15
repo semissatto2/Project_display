@@ -379,6 +379,8 @@ try:
 
 			if ("0% packet loss" in output)==offline:
 				offline = not offline
+				if offline == True:
+					flag_connected = 0
 				print_echo("Connection Status Changed: Offline = "+str(offline))
 
 			if flag_connected == 0:
