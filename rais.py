@@ -163,6 +163,7 @@ def on_connect(client, userdata, flags, rc):
 
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
 	client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
+	client.will_set("RAIS/"+client_name+"/online", payload="false", qos=2, retain=True)
 
 #create function for log callback
 def on_log(client, userdata, level, buf):
