@@ -116,7 +116,9 @@ def on_message(client, userdata, message):
 	elif str(message.topic) == "RAIS/global/firmware-update":
 		display_text("Updating firmware...",(0,0,0),(255,0,0))
 		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_fw.sh"]).communicate()
-
+	elif str(message.topic) == "RAIS/"+client_name+"/online" and str(message.payload)=="false":
+		client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
+		client.will_set("RAIS/"+client_name+"/online", payload="false", qos=2, retain=True)
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
@@ -140,6 +142,8 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/"+client_name+"/config/color")
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/config/bg")
 	client.subscribe("RAIS/"+client_name+"/config/bg")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/online")
+	client.subscribe("RAIS/"+client_name+"/online")
 
 
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
@@ -188,7 +192,7 @@ def	on_unsubscribe(client, userdata, mid):
 #create function for disconnect callback
 def	on_disconnect(client, userdata, rc):
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online : false")
-	client.publish("RAIS/"+client_name+"/online","false")
+	client.publish("RAIS/"+client_name+"/online","false",qos=2,retain=True)
 
 	print_echo("MQTT disconnected: "+str(rc)+"\n")
 	#display_text("MQTT Disconnected",(0,0,0),(255,0,0))
