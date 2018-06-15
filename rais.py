@@ -169,6 +169,11 @@ def on_connect(client, userdata, flags, rc):
 	client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
 	client.will_set("RAIS/"+client_name+"/online", payload="false", qos=2, retain=True)
 
+	if GPIO.input("P8_17"):
+		client.publish("RAIS/"+client_name+"/clp-alive","true")
+	else:
+		client.publish("RAIS/"+client_name+"/clp-alive","false")
+
 #create function for log callback
 def on_log(client, userdata, level, buf):
 	#print("log: "+str(buf)+"\n")
@@ -233,7 +238,7 @@ def display_text(text_msg,text_color,background):
 
 	if offline == True:
 		font = pygame.font.SysFont('Sans',80)
-		text = font.render('OFFLINE MODE', True, (255, 0, 0))
+		text = font.render('OFFLINE MODE', True, (40, 40, 40))
 		screen.blit(text,(0,0))
 	pygame.display.flip()
 
@@ -260,7 +265,7 @@ def display_image(file_name):
 
 	if offline == True:
 		font = pygame.font.SysFont('Sans',80)
-		text = font.render('OFFLINE MODE', True, (255, 0, 0))
+		text = font.render('OFFLINE MODE', True, (40,40,40))
 		screen.blit(text,(0,0))
 
 	pygame.display.flip()
@@ -343,12 +348,6 @@ display_image(image_file)
 
 print_echo("Listening CLP - Keep-alive bit: " + str(GPIO.input("P8_17")))
 
-if flag_connected:
-	if GPIO.input("P8_17"):
-		client.publish("RAIS/"+client_name+"/clp-alive","true")
-	else:
-		client.publish("RAIS/"+client_name+"/clp-alive","false")
-
 delay_test = 5
 backup = pygame.display.get_surface().copy()
 screen_saver = 0
@@ -406,6 +405,10 @@ try:
 				pygame.mouse.set_visible(0)
 				screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 				screen.blit(backup,(0,0))
+				if offline == True:
+					font = pygame.font.SysFont('Sans',80)
+					text = font.render('OFFLINE MODE', True, (40,40,40))
+					screen.blit(text,(0,0))
 				pygame.display.flip()
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
@@ -420,6 +423,10 @@ try:
 			pygame.mouse.set_visible(0)
 			screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 			screen.blit(backup,(0,0))
+			if offline == True:
+				font = pygame.font.SysFont('Sans',80)
+				text = font.render('OFFLINE MODE', True, (40,40,40))
+				screen.blit(text,(0,0))
 			pygame.display.flip()
 			t_screen_saver = time.time()
 			screen_saver=0
