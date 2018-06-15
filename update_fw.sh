@@ -28,8 +28,6 @@ echo "Done..."
 #reboot
 
 echo "Restarting service..."
-systemctl stop launcher.service
-echo "Starting service..."
-systemctl start launcher.service
+systemctl reload launcher.service
 
 exit 0

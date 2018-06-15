@@ -8,6 +8,7 @@ User=debian
 EnvironmentFile=/usr/bin/env
 ExecStart=/home/debian/Desktop/Project_display/launcher_rais.sh
 ExecStop=/home/debian/Desktop/Project_display/stop_service.sh
+ExecReload=/home/debian/Desktop/Project_display/reload_service.sh
 Restart=always
 
 [Install]
