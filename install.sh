@@ -54,6 +54,8 @@ sleep 3
 echo "${green}Concedendo permissões às rotinas de automação...${reset}"
 cd /home/debian/Desktop/Project_display/
 chmod +x launcher_browser.sh
+chmod +x launcher_rais.sh
+chmod +x stop_service.sh
 chmod +x update_images.sh
 chmod +x update_fw.sh
 echo "${green}Permissões concedidas...${reset}"

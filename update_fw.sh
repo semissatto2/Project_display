@@ -10,6 +10,8 @@ echo "Repository cloned succesfully..."
 
 echo "Giving permissions"
 chmod +x launcher_browser.sh
+chmod +x launcher_rais.sh
+chmod +x stop_service.sh
 chmod +x update_images.sh
 chmod +x update_fw.sh
 echo "Done..."
@@ -22,5 +24,9 @@ systemctl daemon-reload
 systemctl enable /lib/systemd/launcher.service
 echo "Done..."
 
-echo "Rebooting..."
-reboot
+#echo "Rebooting..."
+#reboot
+
+echo "Restarting service..."
+systemctl stop launcher.service
+systemctl start launcher.service
