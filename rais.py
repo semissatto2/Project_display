@@ -119,7 +119,6 @@ def on_message(client, userdata, message):
 		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_fw.sh"]).communicate()
 	elif str(message.topic) == "RAIS/"+client_name+"/online" and str(message.payload)=="false":
 		client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
-		client.will_set("RAIS/"+client_name+"/online", payload="false", qos=2, retain=True)
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
