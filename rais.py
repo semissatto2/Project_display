@@ -271,7 +271,7 @@ def display_image(file_name):
 
 #A partir de uma interrupcao, le IO e carrega imagem na tela
 def new_msg():
-	x = 8*GPIO.input("P8_18")+4*GPIO.input("P8_16")+2*GPIO.input("P8_14")+GPIO.input("P8_12")
+	x = GPIO.input("P8_14")<<5+GPIO.input("P8_13")<<4+GPIO.input("P8_15")<<3+GPIO.input("P8_17")<<2+GPIO.input("P8_11")<<1+GPIO.input("P8_12")
 	image_file=str(x)+".png"
 	display_image(image_file)
 	print_echo("Event P8_11 - new PLC command: " + image_file)
@@ -291,14 +291,16 @@ def clp_keep_alive():
 			display_text(msg,(0,0,0),(255,0,0))
 
 #__SETUP_GPIO
-GPIO.setup("P8_11", GPIO.IN)
 GPIO.setup("P8_12", GPIO.IN) #BIT 0
-GPIO.setup("P8_14", GPIO.IN) #BIT 1
-GPIO.setup("P8_16", GPIO.IN) #BIT 2
-GPIO.setup("P8_18", GPIO.IN) #BIT 3
-GPIO.setup("P8_17", GPIO.IN) #CLP KEEP-ALIVE
-GPIO.add_event_detect("P8_11", GPIO.RISING, bouncetime=200)
-GPIO.add_event_detect("P8_17",GPIO.BOTH, bouncetime=200)
+GPIO.setup("P8_11", GPIO.IN) #BIT 1
+GPIO.setup("P8_17", GPIO.IN) #BIT 2
+GPIO.setup("P8_15", GPIO.IN) #BIT 3
+GPIO.setup("P8_13", GPIO.IN) #BIT 4
+GPIO.setup("P8_14", GPIO.IN) #BIT 5
+GPIO.setup("P8_16", GPIO.IN) #KEEP-ALIVE
+GPIO.setup("P8_18", GPIO.IN) #CONTROL
+GPIO.add_event_detect("P8_16", GPIO.RISING, bouncetime=200)
+GPIO.add_event_detect("P8_18",GPIO.BOTH, bouncetime=200)
 
 print_echo("Starting RAIS")
 print_echo("Creating new MQTT instance: "+client_name+"\n")
@@ -360,12 +362,12 @@ try:
 	while True:
 		client.loop(timeout=0.2)
 		#print_echo("GPIO P8_17: "+str(GPIO.input("P8_17")))
-		if GPIO.event_detected("P8_17"):
+		if GPIO.event_detected("P8_16"):
 			clp_keep_alive()
 			t_browser = time.time()
 			t_msg = t_browser
 			t_screen_saver = t_browser
-		if GPIO.event_detected("P8_11"):
+		if GPIO.event_detected("P8_18"):
 			new_msg()
 			t_browser = time.time()
 			t_msg = t_browser
