@@ -271,24 +271,25 @@ def display_image(file_name):
 
 #A partir de uma interrupcao, le IO e carrega imagem na tela
 def new_msg():
-	x = GPIO.input("P8_14")<<5+GPIO.input("P8_13")<<4+GPIO.input("P8_15")<<3+GPIO.input("P8_17")<<2+GPIO.input("P8_11")<<1+GPIO.input("P8_12")
+	print_echo(str(GPIO.input("P8_12")))
+	x = GPIO.input("P8_14")*32+GPIO.input("P8_13")*16+GPIO.input("P8_15")*8+GPIO.input("P8_17")*4+GPIO.input("P8_11")*2+GPIO.input("P8_12")
 	image_file=str(x)+".png"
 	display_image(image_file)
-	print_echo("Event P8_11 - new PLC command: " + image_file)
+	print_echo("Event P8_18 - new PLC command: " + image_file)
 	if flag_connected:
 		client.publish("RAIS/"+client_name+"/clp-message",image_file,qos=2,retain=True)
 
 def clp_keep_alive():
 	status = GPIO.input("P8_17")
 	msg = "PLC keep-alive bit: " + str(status)
-	print_echo("Event P8_17 - "+msg)
+	print_echo("Event P8_16 - "+msg)
 	if flag_connected:
 		if status:
 			client.publish("RAIS/"+client_name+"/clp-alive","true",qos=2,retain=True)
-			display_text(msg,(0,0,0),(0,255,0))
+			#display_text(msg,(0,0,0),(0,255,0))
 		else:
 			client.publish("RAIS/"+client_name+"/clp-alive","false",qos=2,retain=True)
-			display_text(msg,(0,0,0),(255,0,0))
+			#display_text(msg,(0,0,0),(255,0,0))
 
 #__SETUP_GPIO
 GPIO.setup("P8_12", GPIO.IN) #BIT 0
@@ -299,8 +300,8 @@ GPIO.setup("P8_13", GPIO.IN) #BIT 4
 GPIO.setup("P8_14", GPIO.IN) #BIT 5
 GPIO.setup("P8_16", GPIO.IN) #KEEP-ALIVE
 GPIO.setup("P8_18", GPIO.IN) #CONTROL
-GPIO.add_event_detect("P8_16", GPIO.RISING, bouncetime=200)
-GPIO.add_event_detect("P8_18",GPIO.BOTH, bouncetime=200)
+GPIO.add_event_detect("P8_16", GPIO.BOTH, bouncetime=200)
+GPIO.add_event_detect("P8_18",GPIO.RISING, bouncetime=200)
 
 print_echo("Starting RAIS")
 print_echo("Creating new MQTT instance: "+client_name+"\n")
@@ -324,7 +325,7 @@ pygame.init()
 
 for i in range(2):
 	display_image("connecting.jpg")
-	output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+	output, error = subprocess.Popen(["ping","-c 2","-W 0.2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 	if "0% packet loss" in output:
 		offline = False
 		break
@@ -375,14 +376,16 @@ try:
 		if time.time() - t_ping >= delay_ping:
 			t_ping = time.time()
 
-			output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+			output, error = subprocess.Popen(["ping","-c 2","-W 0.2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+			#output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 
+			'''
 			if ("0% packet loss" in output)==offline:
 				offline = not offline
 				if offline == True:
 					flag_connected = 0
 				print_echo("Connection Status Changed: Offline = "+str(offline))
-
+			'''
 			if flag_connected == 0:
 				#print_echo("Connecting to MQTT broker: "+str(broker_address))
 				try:
@@ -406,33 +409,37 @@ try:
 				pygame.mouse.set_visible(0)
 				screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 				screen.blit(backup,(0,0))
-				#if offline == True:
-				#	font = pygame.font.SysFont('Sans',80)
-				#	text = font.render('OFFLINE MODE', True, (40,40,40))
-				#	screen.blit(text,(0,0))
+				if offline == True:
+					font = pygame.font.SysFont('Sans',80)
+					text = font.render('OFFLINE MODE', True, (40,40,40))
+					screen.blit(text,(0,0))
 				pygame.display.flip()
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
 		if screen_saver == 0 and time.time() - t_screen_saver >= delay_saver*60:
+
+			print_echo("Starting screen saver")
 			if pygame.display.get_init() == True:
 				backup = pygame.display.get_surface().copy()
 			display_text(beamline,(255,255,255),(0,0,0))
 			screen_saver = 1
+			print_echo("Ending screen saver block")
 		if screen_saver == 1 and time.time() - t_screen_saver >= (delay_saver*60+persist_saver):
+			print_echo("Closing screen saver")
 			if pygame.display.get_init() == False:
 				pygame.display.init()
 			pygame.mouse.set_visible(0)
 			screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 			screen.blit(backup,(0,0))
-			#if offline == True:
-			#	font = pygame.font.SysFont('Sans',80)
-			#	text = font.render('OFFLINE MODE', True, (40,40,40))
-			#	screen.blit(text,(0,0))
+			if offline == True:
+				font = pygame.font.SysFont('Sans',80)
+				text = font.render('OFFLINE MODE', True, (40,40,40))
+				screen.blit(text,(0,0))
 			pygame.display.flip()
 			t_screen_saver = time.time()
 			screen_saver=0
 			#display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
-
+			print_echo("Ending closing screen saver")
 except KeyboardInterrupt:
 	if flag_connected:
 		client.disconnect()
