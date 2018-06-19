@@ -247,14 +247,14 @@ def display_image(file_name):
 		pygame.display.init()
 	pygame.mouse.set_visible(0)
 	# Tenta carregar a imagem do diretorio compartilhado. Caso nao consiga, carrega do diretorio interno
-	directory_shared = "/home/debian/Desktop/shared/" + file_name
+	directory_shared = "/home/debian/Desktop/downloads/" + file_name
 	directory_interno = "/home/debian/Desktop/Project_display/images/" + file_name
-	if os.path.isfile(directory_shared):
+        if os.path.isfile(directory_shared):
 		image = pygame.image.load(directory_shared)
-		#print_echo(directory_shared)
+		#print_echo("Loading shared image: "+directory_shared)
 	elif os.path.isfile(directory_interno):
 		image = pygame.image.load(directory_interno)
-		#print_echo(directory_interno)
+		#print_echo("Loading local image: "+directory_interno)
 	else:
 		display_text("ERROR: File Not Found",(0,0,0),(255,0,0)) #Erro caso imagem nao seja encontrada
 		return
@@ -271,7 +271,7 @@ def display_image(file_name):
 
 #A partir de uma interrupcao, le IO e carrega imagem na tela
 def new_msg():
-	print_echo(str(GPIO.input("P8_12")))
+	#print_echo(str(GPIO.input("P8_12")))
 	x = GPIO.input("P8_14")*32+GPIO.input("P8_13")*16+GPIO.input("P8_15")*8+GPIO.input("P8_17")*4+GPIO.input("P8_11")*2+GPIO.input("P8_12")
 	image_file=str(x)+".png"
 	display_image(image_file)
@@ -362,7 +362,6 @@ try:
 	t_screen_saver = time.time()
 	while True:
 		client.loop(timeout=0.2)
-		#print_echo("GPIO P8_17: "+str(GPIO.input("P8_17")))
 		if GPIO.event_detected("P8_16"):
 			clp_keep_alive()
 			t_browser = time.time()
@@ -375,25 +374,20 @@ try:
 			t_screen_saver = t_browser
 		if time.time() - t_ping >= delay_ping:
 			t_ping = time.time()
-
 			output, error = subprocess.Popen(["ping","-c 2","-W 0.2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 			#output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-
-			'''
 			if ("0% packet loss" in output)==offline:
 				offline = not offline
 				if offline == True:
 					flag_connected = 0
 				print_echo("Connection Status Changed: Offline = "+str(offline))
-			'''
-			if flag_connected == 0:
+			if flag_connected == 0 and offline == False:
 				#print_echo("Connecting to MQTT broker: "+str(broker_address))
 				try:
 					client.reconnect()
 				except:
 					#print_echo("Connection refused")
 					pass
-
 		if time.time() - t_browser >= delay_browser+delay_msg:
 			t_browser = time.time()
 			t_msg = t_browser
@@ -416,16 +410,13 @@ try:
 				pygame.display.flip()
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
+			#print_echo("Loop Test")
 		if screen_saver == 0 and time.time() - t_screen_saver >= delay_saver*60:
-
-			print_echo("Starting screen saver")
 			if pygame.display.get_init() == True:
 				backup = pygame.display.get_surface().copy()
 			display_text(beamline,(255,255,255),(0,0,0))
 			screen_saver = 1
-			print_echo("Ending screen saver block")
 		if screen_saver == 1 and time.time() - t_screen_saver >= (delay_saver*60+persist_saver):
-			print_echo("Closing screen saver")
 			if pygame.display.get_init() == False:
 				pygame.display.init()
 			pygame.mouse.set_visible(0)
@@ -439,7 +430,6 @@ try:
 			t_screen_saver = time.time()
 			screen_saver=0
 			#display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
-			print_echo("Ending closing screen saver")
 except KeyboardInterrupt:
 	if flag_connected:
 		client.disconnect()
