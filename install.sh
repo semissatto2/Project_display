@@ -83,5 +83,5 @@ systemctl enable /lib/systemd/launcher.service
 echo "${green}Arquivos copiados...${reset}"
 sleep 2
 
-echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
-sudo reboot
+#echo "${green}Beaglebone completamente configurada. Reiniciando...${reset}"
+#sudo reboot
