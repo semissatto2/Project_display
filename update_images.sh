@@ -7,7 +7,7 @@ mount -t cifs //stnls02.lnls.br/CommonSystems_Sirius/BEAGLETemp/ /home/debian/De
 
 echo 'Images have been loaded'
 
-sudo cp -r /home/debian/Desktop/shared/ home/debian/Desktop/downloads
+sudo cp -r /home/debian/Desktop/shared/ /home/debian/Desktop/downloads
 echo 'Images have been copied to local directory'
 
 exit 0
