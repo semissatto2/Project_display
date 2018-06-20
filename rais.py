@@ -371,7 +371,7 @@ try:
 		if time.time() - t_ping >= delay_ping:
 			print_echo("Inside Ping")
 			t_ping = time.time()
-			output, error = subprocess.Popen(["ping","-c 2","-W 0.2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+			output, error = subprocess.Popen(["ping","-c 2","-W 0.2","-w 2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 			print_echo("After subprocess")
 			#output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 			if ("0% packet loss" in output)==offline:
