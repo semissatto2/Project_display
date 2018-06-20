@@ -271,7 +271,7 @@ def display_image(file_name):
 
 #A partir de uma interrupcao, le IO e carrega imagem na tela
 def new_msg():
-	#print_echo(str(GPIO.input("P8_12")))
+	#print_echo(str(GPIO.input("P8_17")))
 	x = GPIO.input("P8_14")*32+GPIO.input("P8_13")*16+GPIO.input("P8_15")*8+GPIO.input("P8_17")*4+GPIO.input("P8_11")*2+GPIO.input("P8_12")
 	image_file=str(x)+".png"
 	display_image(image_file)
@@ -333,7 +333,7 @@ for i in range(2):
 	display_image("waiting.jpg")
 	time.sleep(1)
 
-output, error = subprocess.Popen("ifconfig eth0",shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+output, error = subprocess.Popen(["ifconfig","eth0"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 output = output.split(" ")
 if "inet" in output:
 	ip_address = output[output.index("inet")+1]
@@ -350,7 +350,7 @@ display_image(image_file)
 
 print_echo("Listening CLP - Keep-alive bit: " + str(GPIO.input("P8_17")))
 
-delay_test = 5
+delay_test = 10
 backup = pygame.display.get_surface().copy()
 screen_saver = 0
 try:
@@ -373,6 +373,7 @@ try:
 			t_msg = t_browser
 			t_screen_saver = t_browser
 		if time.time() - t_ping >= delay_ping:
+			print_echo("Inside Ping")
 			t_ping = time.time()
 			output, error = subprocess.Popen(["ping","-c 2","-W 0.2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 			#output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
@@ -388,6 +389,7 @@ try:
 				except:
 					#print_echo("Connection refused")
 					pass
+			print_echo("Ending inside ping")
 		if time.time() - t_browser >= delay_browser+delay_msg:
 			t_browser = time.time()
 			t_msg = t_browser
@@ -410,16 +412,19 @@ try:
 				pygame.display.flip()
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
-			#print_echo("Loop Test")
+			print_echo("Loop Test")
 		if screen_saver == 0 and time.time() - t_screen_saver >= delay_saver*60:
+			print_echo("Init Screen Saver")
 			if pygame.display.get_init() == True:
 				backup = pygame.display.get_surface().copy()
 			display_text(beamline,(255,255,255),(0,0,0))
 			screen_saver = 1
+			print_echo("Ending screen saver")
 		if screen_saver == 1 and time.time() - t_screen_saver >= (delay_saver*60+persist_saver):
+			print_echo("Closing Screen Saver")
 			if pygame.display.get_init() == False:
 				pygame.display.init()
-			pygame.mouse.set_visible(0)
+				pygame.mouse.set_visible(0)
 			screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
 			screen.blit(backup,(0,0))
 			if offline == True:
@@ -429,6 +434,7 @@ try:
 			pygame.display.flip()
 			t_screen_saver = time.time()
 			screen_saver=0
+			print_echo("End of block")
 			#display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
 except KeyboardInterrupt:
 	if flag_connected:
