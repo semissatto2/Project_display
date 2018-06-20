@@ -1,3 +1,7 @@
+
+
+
+
 #!/usr/bin/env python
 import Adafruit_BBIO.GPIO as GPIO
 import time
@@ -168,10 +172,7 @@ def on_connect(client, userdata, flags, rc):
 	client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
 	client.will_set("RAIS/"+client_name+"/online", payload="false", qos=2, retain=True)
 
-	if GPIO.input("P8_17"):
-		client.publish("RAIS/"+client_name+"/clp-alive","true",qos=2,retain=True)
-	else:
-		client.publish("RAIS/"+client_name+"/clp-alive","false",qos=2,retain=True)
+	client.publish("RAIS/"+client_name+"/clp-alive",str(GPIO.input("P8_16")==1),qos=2,retain=True)
 
 #create function for log callback
 def on_log(client, userdata, level, buf):
@@ -280,16 +281,11 @@ def new_msg():
 		client.publish("RAIS/"+client_name+"/clp-message",image_file,qos=2,retain=True)
 
 def clp_keep_alive():
-	status = GPIO.input("P8_17")
+	status = GPIO.input("P8_16")
 	msg = "PLC keep-alive bit: " + str(status)
 	print_echo("Event P8_16 - "+msg)
 	if flag_connected:
-		if status:
-			client.publish("RAIS/"+client_name+"/clp-alive","true",qos=2,retain=True)
-			#display_text(msg,(0,0,0),(0,255,0))
-		else:
-			client.publish("RAIS/"+client_name+"/clp-alive","false",qos=2,retain=True)
-			#display_text(msg,(0,0,0),(255,0,0))
+		client.publish("RAIS/"+client_name+"/clp-alive",str(status==1),qos=2,retain=True)
 
 #__SETUP_GPIO
 GPIO.setup("P8_12", GPIO.IN) #BIT 0
@@ -348,7 +344,7 @@ if offline == False:
 		browser_launched = 1
 display_image(image_file)
 
-print_echo("Listening CLP - Keep-alive bit: " + str(GPIO.input("P8_17")))
+print_echo("Listening CLP - Keep-alive bit: " + str(GPIO.input("P8_16")))
 
 delay_test = 10
 backup = pygame.display.get_surface().copy()
@@ -376,12 +372,14 @@ try:
 			print_echo("Inside Ping")
 			t_ping = time.time()
 			output, error = subprocess.Popen(["ping","-c 2","-W 0.2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+			print_echo("After subprocess")
 			#output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 			if ("0% packet loss" in output)==offline:
 				offline = not offline
 				if offline == True:
 					flag_connected = 0
 				print_echo("Connection Status Changed: Offline = "+str(offline))
+			print_echo("After first if")
 			if flag_connected == 0 and offline == False:
 				#print_echo("Connecting to MQTT broker: "+str(broker_address))
 				try:
@@ -414,14 +412,14 @@ try:
 			t_test = time.time()
 			print_echo("Loop Test")
 		if screen_saver == 0 and time.time() - t_screen_saver >= delay_saver*60:
-			print_echo("Init Screen Saver")
+			#print_echo("Init Screen Saver")
 			if pygame.display.get_init() == True:
 				backup = pygame.display.get_surface().copy()
 			display_text(beamline,(255,255,255),(0,0,0))
 			screen_saver = 1
-			print_echo("Ending screen saver")
+			#print_echo("Ending screen saver")
 		if screen_saver == 1 and time.time() - t_screen_saver >= (delay_saver*60+persist_saver):
-			print_echo("Closing Screen Saver")
+			#print_echo("Closing Screen Saver")
 			if pygame.display.get_init() == False:
 				pygame.display.init()
 				pygame.mouse.set_visible(0)
@@ -434,7 +432,7 @@ try:
 			pygame.display.flip()
 			t_screen_saver = time.time()
 			screen_saver=0
-			print_echo("End of block")
+			#print_echo("End of block")
 			#display_text("Teste linha 1\nLinha 2",(0,0,0),(0,255,0))
 except KeyboardInterrupt:
 	if flag_connected:
