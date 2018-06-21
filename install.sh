@@ -52,6 +52,16 @@ if [ ! -f /home/debian/Desktop/config ]; then
 fi
 sleep 3
 
+echo "${green}Creating audio folder and file...${reset}"
+cd /home/debian/Desktop
+mkdir audio
+cd audio
+touch file.wav
+chown debian file.wav
+echo "${green}Folder and file created...${reset}"
+sleep 2
+
+
 echo "${green}Concedendo permissões às rotinas de automação...${reset}"
 cd /home/debian/Desktop/Project_display/
 chmod +x launcher_browser.sh
