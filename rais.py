@@ -123,6 +123,11 @@ def on_message(client, userdata, message):
 		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_fw.sh"]).communicate()
 	elif str(message.topic) == "RAIS/"+client_name+"/online" and str(message.payload)=="false":
 		client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
+ 	elif str(message.topic) == "RAIS/"+client_name+"/audio-msg" or str(message.topic) == "RAIS/global/audio-msg":
+                subprocess.Popen(["flite","-voice","slt","-t",str(message.payload),"-o","/home/debian/Desktop/audio/file.wav"]).communicate()
+		asound = pygame.mixer.Sound("/home/debian/Desktop/audio/file.wav")
+		if pygame.mixer.get_busy() == False:
+			asound.play()
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
@@ -148,6 +153,9 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/"+client_name+"/config/bg")
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/online")
 	client.subscribe("RAIS/"+client_name+"/online")
+        print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
+        client.subscribe("RAIS/"+client_name+"/audio-msg")
+
 
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
@@ -167,6 +175,9 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/global/config/color")
 	print_echo("Subscribing to topic: RAIS/global/config/bg")
 	client.subscribe("RAIS/global/config/bg")
+        print_echo("Subscribing to topic: RAIS/global/audio-msg")
+        client.subscribe("RAIS/global/audio-msg")
+
 
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
 	client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
@@ -317,6 +328,8 @@ except:
 	print_echo("Connection refused")
 
 print_echo("Starting Pygame\n")
+
+pygame.mixer.pre_init(frequency=16000)
 pygame.init()
 
 for i in range(2):
@@ -369,17 +382,17 @@ try:
 			t_msg = t_browser
 			t_screen_saver = t_browser
 		if time.time() - t_ping >= delay_ping:
-			print_echo("Inside Ping")
+			#print_echo("Inside Ping")
 			t_ping = time.time()
 			output, error = subprocess.Popen(["ping","-c 2","-W 0.2","-w 2",hostname],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
-			print_echo("After subprocess")
+			#print_echo("After subprocess")
 			#output, error = subprocess.Popen("ping -c 2 -W 0.2 "+hostname,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
 			if ("0% packet loss" in output)==offline:
 				offline = not offline
 				if offline == True:
 					flag_connected = 0
 				print_echo("Connection Status Changed: Offline = "+str(offline))
-			print_echo("After first if")
+			#print_echo("After first if")
 			if flag_connected == 0 and offline == False:
 				#print_echo("Connecting to MQTT broker: "+str(broker_address))
 				try:
@@ -387,7 +400,7 @@ try:
 				except:
 					#print_echo("Connection refused")
 					pass
-			print_echo("Ending inside ping")
+			#print_echo("Ending inside ping")
 		if time.time() - t_browser >= delay_browser+delay_msg:
 			t_browser = time.time()
 			t_msg = t_browser
@@ -410,7 +423,7 @@ try:
 				pygame.display.flip()
 		if time.time() - t_test >= delay_test:
 			t_test = time.time()
-			print_echo("Loop Test")
+			#print_echo("Loop Test")
 		if screen_saver == 0 and time.time() - t_screen_saver >= delay_saver*60:
 			#print_echo("Init Screen Saver")
 			if pygame.display.get_init() == True:

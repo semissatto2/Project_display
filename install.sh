@@ -24,7 +24,7 @@ dpkg-reconfigure locales
 sudo dpkg-reconfigure tzdata
 
 echo "${green}Atualizando Debian e obtendo pacotes Python pip, Adafruit, Pygame, Xdotool, Unclutter, Samba...${reset}"
-sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus midori python-pygame -y
+sudo apt-get install build-essential python-dev python-setuptools python-pip python-smbus midori python-pygame flite -y
 sudo pip install --upgrade pip
 sudo pip install Adafruit_BBIO
 sudo pip install paho-mqtt
@@ -39,7 +39,6 @@ sleep 3
 
 echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_fw.sh' | sudo EDITOR='tee -a' visudo
 echo 'debian ALL=(ALL:ALL) NOPASSWD:/home/debian/Desktop/Project_display/update_images.sh' | sudo EDITOR='tee -a' visudo
-
 
 echo "${green}Clonando Repositório...${reset}"
 cd /home/debian/Desktop/
@@ -70,11 +69,11 @@ if [ -f /etc/systemd/system/launcher.service ]; then
 	rm /etc/systemd/system/launcher.service
 fi
 
-if [ $(cat ~/.xsessionrc | grep -c gnome-keyring-daemon) > 0 ]; then
+if [ $(cat /home/debian/.xsessionrc | grep -c gnome-keyring-daemon) > 0 ]; then
 	echo 'gnome-keyring-daemon already starting at boot'
 else
 	echo 'Adding gnome-keyring-daemon to startup'
-	echo 'export `gnome-keyring-daemon –start`' >> ~/.xsessionrc
+	echo 'export `gnome-keyring-daemon –start`' >> /home/debian/.xsessionrc
 fi
 
 ln -s /lib/systemd/launcher.service /etc/systemd/system/launcher.service
