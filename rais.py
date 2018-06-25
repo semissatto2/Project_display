@@ -153,8 +153,8 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/"+client_name+"/config/bg")
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/online")
 	client.subscribe("RAIS/"+client_name+"/online")
-    print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
-    client.subscribe("RAIS/"+client_name+"/audio-msg")
+    	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
+    	client.subscribe("RAIS/"+client_name+"/audio-msg")
 
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
@@ -175,9 +175,9 @@ def on_connect(client, userdata, flags, rc):
 	print_echo("Subscribing to topic: RAIS/global/config/bg")
 	client.subscribe("RAIS/global/config/bg")
 	print_echo("Subscribing to topic: RAIS/global/online")
-    client.subscribe("RAIS/global/online")
-    print_echo("Subscribing to topic: RAIS/global/audio-msg")
-    client.subscribe("RAIS/global/audio-msg")
+    	client.subscribe("RAIS/global/online")
+    	print_echo("Subscribing to topic: RAIS/global/audio-msg")
+    	client.subscribe("RAIS/global/audio-msg")
 
 
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
