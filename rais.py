@@ -121,7 +121,7 @@ def on_message(client, userdata, message):
 	elif str(message.topic) == "RAIS/global/firmware-update":
 		display_text("Updating firmware...",(0,0,0),(255,0,0))
 		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_fw.sh"]).communicate()
-	elif str(message.topic) == "RAIS/"+client_name+"/online" and str(message.payload)=="false":
+	elif (str(message.topic) == "RAIS/"+client_name+"/online" and str(message.payload)=="false") or str(message.topic) == "RAIS/global/online":
 		client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
  	elif str(message.topic) == "RAIS/"+client_name+"/audio-msg" or str(message.topic) == "RAIS/global/audio-msg":
                 subprocess.Popen(["flite","-voice","slt","-t",str(message.payload),"-o","/home/debian/Desktop/audio/file.wav"]).communicate()
@@ -153,9 +153,8 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/"+client_name+"/config/bg")
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/online")
 	client.subscribe("RAIS/"+client_name+"/online")
-        print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
-        client.subscribe("RAIS/"+client_name+"/audio-msg")
-
+    print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
+    client.subscribe("RAIS/"+client_name+"/audio-msg")
 
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
@@ -175,8 +174,10 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/global/config/color")
 	print_echo("Subscribing to topic: RAIS/global/config/bg")
 	client.subscribe("RAIS/global/config/bg")
-        print_echo("Subscribing to topic: RAIS/global/audio-msg")
-        client.subscribe("RAIS/global/audio-msg")
+	print_echo("Subscribing to topic: RAIS/global/online")
+    client.subscribe("RAIS/global/online")
+    print_echo("Subscribing to topic: RAIS/global/audio-msg")
+    client.subscribe("RAIS/global/audio-msg")
 
 
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
