@@ -192,6 +192,8 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/global/config/bg")
 	print_echo("Subscribing to topic: RAIS/global/online")
     	client.subscribe("RAIS/global/online")
+        print_echo("Subscribing to topic: "+"RAIS/global/audio-msg")
+        client.subscribe("RAIS/global/audio-msg")
     	print_echo("Subscribing to topic: RAIS/global/audio-file")
     	client.subscribe("RAIS/global/audio-file")
 
