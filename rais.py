@@ -114,9 +114,9 @@ def on_message(client, userdata, message):
 	elif str(message.topic) == "RAIS/"+client_name+"/img" or str(message.topic) == "RAIS/global/img":
 		display_image(str(message.payload))
 	elif str(message.topic) == "RAIS/global/img-update":
-		display_text("Loading Images...",(0,0,0),(0,0,255))
+		display_text("Loading New Files...",(0,0,0),(0,0,255))
 		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_images.sh",str(folder_username),str(folder_password)]).communicate()
-		display_text("New images have been loaded",(0,0,0),(0,255,0))
+		display_text("New files have been loaded",(0,0,0),(0,255,0))
 	elif str(message.topic) == "RAIS/global/firmware-update":
 		display_text("Updating firmware...",(0,0,0),(255,0,0))
 		subprocess.Popen(["sudo","/home/debian/Desktop/Project_display/update_fw.sh"]).communicate()
