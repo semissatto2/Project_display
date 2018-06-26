@@ -38,9 +38,9 @@ def print_echo(msg):
 	subprocess.Popen("echo " + str(msg),shell=True).communicate()
 
 def hex_to_rgb(hex_color):
-    hex_color = hex_color.lstrip('#')
-    lv = len(hex_color)
-    return tuple(int(hex_color[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+    	hex_color = hex_color.lstrip('#')
+   	lv = len(hex_color)
+    	return tuple(int(hex_color[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
 def rgb_to_hex(rgb_tuple):
 	return '%02x%02x%02x' %rgb_tuple
@@ -84,7 +84,6 @@ for line in config_file:
 	elif line[0] == "persist_saver_sec":
 		persist_saver = int(line[-1].strip())
 config_file.close()
-
 client_name = beamline + "/" + client_name
 
 #create function for message callback
@@ -125,8 +124,8 @@ def on_message(client, userdata, message):
 		client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
  	elif str(message.topic) == "RAIS/"+client_name+"/audio-msg" or str(message.topic) == "RAIS/global/audio-msg":
                 subprocess.Popen(["flite","-voice","slt","-t",str(message.payload),"-o","/home/debian/Desktop/audio/file.wav"]).communicate()
-				if pygame.mixer.get_init()==0:
-					pygame.mixer.init()
+		if pygame.mixer.get_init()==0:
+			pygame.mixer.init()
 		asound = pygame.mixer.Sound("/home/debian/Desktop/audio/file.wav")
 		if pygame.mixer.get_busy() == False:
 			asound.play()
@@ -168,10 +167,10 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/"+client_name+"/config/bg")
 	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/online")
 	client.subscribe("RAIS/"+client_name+"/online")
-    	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
-    	client.subscribe("RAIS/"+client_name+"/audio-msg")
-		print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-file")
-    	client.subscribe("RAIS/"+client_name+"/audio-file")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
+	client.subscribe("RAIS/"+client_name+"/audio-msg")
+	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-file")
+	client.subscribe("RAIS/"+client_name+"/audio-file")
 
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
