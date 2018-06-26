@@ -353,7 +353,7 @@ except:
 
 print_echo("Starting Pygame\n")
 
-pygame.mixer.pre_init(frequency=16000)
+#pygame.mixer.pre_init(frequency=16000)
 pygame.init()
 
 for i in range(2):
