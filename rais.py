@@ -125,9 +125,24 @@ def on_message(client, userdata, message):
 		client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
  	elif str(message.topic) == "RAIS/"+client_name+"/audio-msg" or str(message.topic) == "RAIS/global/audio-msg":
                 subprocess.Popen(["flite","-voice","slt","-t",str(message.payload),"-o","/home/debian/Desktop/audio/file.wav"]).communicate()
+				if pygame.mixer.get_init()==0:
+					pygame.mixer.init()
 		asound = pygame.mixer.Sound("/home/debian/Desktop/audio/file.wav")
 		if pygame.mixer.get_busy() == False:
 			asound.play()
+	elif str(message.topic) == "RAIS/"+client_name+"/audio-file" or str(message.topic) == "RAIS/global/audio-file":
+		if pygame.mixer.get_init()==0:
+			pygame.mixer.init()
+		pygame.mixer.music.stop()
+		directory_shared = "/home/debian/Desktop/downloads/" + str(message.payload)
+		if os.path.isfile(directory_shared):
+			try:
+				pygame.mixer.music.load(directory_shared)
+				pygame.mixer.music.play()
+			except:
+				print_echo("Sound File not supported")
+		else:
+			print_echo("Sound File not found")
 
 #create function for connect callback
 def on_connect(client, userdata, flags, rc):
@@ -155,6 +170,8 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/"+client_name+"/online")
     	print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-msg")
     	client.subscribe("RAIS/"+client_name+"/audio-msg")
+		print_echo("Subscribing to topic: "+"RAIS/"+client_name+"/audio-file")
+    	client.subscribe("RAIS/"+client_name+"/audio-file")
 
 	client.publish("RAIS/"+client_name+"/config/color",rgb_to_hex(font_color))
 	client.publish("RAIS/"+client_name+"/config/bg",rgb_to_hex(background_color))
@@ -176,8 +193,8 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe("RAIS/global/config/bg")
 	print_echo("Subscribing to topic: RAIS/global/online")
     	client.subscribe("RAIS/global/online")
-    	print_echo("Subscribing to topic: RAIS/global/audio-msg")
-    	client.subscribe("RAIS/global/audio-msg")
+    	print_echo("Subscribing to topic: RAIS/global/audio-file")
+    	client.subscribe("RAIS/global/audio-file")
 
 	global ip_address
         output, error = subprocess.Popen(["ifconfig","eth0"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
