@@ -13,7 +13,7 @@ import random
 import subprocess
 
 #GLOBAL VARIABLES INITIALISATION
-global font_color,background_color,browser,browser_launched,offline,flag_connected
+global font_color,background_color,browser,browser_launched,offline,flag_connected,ip_address
 flag_connected = 0
 offline = True
 browser_launched = 0
@@ -179,6 +179,11 @@ def on_connect(client, userdata, flags, rc):
     	print_echo("Subscribing to topic: RAIS/global/audio-msg")
     	client.subscribe("RAIS/global/audio-msg")
 
+	global ip_address
+        output, error = subprocess.Popen(["ifconfig","eth0"],stdout=subprocess.PIPE,stderr=subprocess.PIPE).communicate()
+        output = output.split(" ")
+        if "inet" in output:
+        	ip_address = output[output.index("inet")+1]
 
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online :"+ip_address)
 	client.publish("RAIS/"+client_name+"/online",ip_address,qos=2,retain=True)
@@ -202,12 +207,12 @@ def on_subscribe(client, userdata, mid, granted_qos):
 	return
 
 #create function for unsubscribe callback
-def	on_unsubscribe(client, userdata, mid):
+def on_unsubscribe(client, userdata, mid):
 	#print("unsubscribed: "+str(mid)+"\n")
 	return
 
 #create function for disconnect callback
-def	on_disconnect(client, userdata, rc):
+def on_disconnect(client, userdata, rc):
 	print_echo("Publishing message to topic: "+"RAIS/"+client_name+"/online : false")
 	client.publish("RAIS/"+client_name+"/online","false",qos=2,retain=True)
 
